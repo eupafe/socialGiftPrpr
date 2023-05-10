@@ -68,7 +68,7 @@
                 android:layout_marginTop="30dp"
                 android:id="@+id/signup_button"
                 android:textSize="18sp"
-                android:text="SignUp"
+                android:text="Sign Up"
                 app:cornerRadius = "30dp"/>
 
 
