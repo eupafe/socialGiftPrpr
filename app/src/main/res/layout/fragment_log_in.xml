@@ -28,7 +28,8 @@
                 android:id="@+id/signup_email"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Email"
+                android:hint="@string/email"
+                android:textColorHint="@color/lavender"
                 android:background="@drawable/edittext"/>
 
             <EditText
@@ -39,18 +40,19 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
                 android:hint="Password"
+                android:textColorHint="@color/lavender"
                 android:inputType="textPassword"
                 android:background="@drawable/edittext"/>
 
             <Button
-                android:layout_width="300dp"
+                android:id="@+id/login_button"
+                android:layout_width="178dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:id="@+id/login_button"
-                android:textSize="18sp"
                 android:text="Log In"
-                app:cornerRadius = "30dp"/>
+                android:textSize="18sp"
+                app:cornerRadius="15dp" />
 
 
         </LinearLayout>
