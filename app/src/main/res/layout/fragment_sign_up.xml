@@ -20,6 +20,15 @@
             android:layout_marginTop="20dp"
             android:padding="20dp">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/profileImage"
+                android:src = "@drawable/addimage"
+                />
+
+
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="60dp"
