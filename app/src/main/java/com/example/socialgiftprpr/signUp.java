@@ -22,10 +22,10 @@ public class signUp extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, 1);*/
+                startActivityForResult(intent, 1);
             }
         });
 
