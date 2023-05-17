@@ -10,19 +10,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:padding="20dp">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:id="@+id/profileImage"
                 android:src = "@drawable/addimage"
@@ -31,7 +31,7 @@
 
             <EditText
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_name"
                 android:layout_marginTop="30dp"
@@ -42,7 +42,7 @@
 
             <EditText
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_surname"
                 android:layout_marginTop="30dp"
@@ -53,7 +53,7 @@
 
             <EditText
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_email"
                 android:layout_marginTop="30dp"
@@ -64,7 +64,7 @@
 
             <EditText
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_password"
                 android:layout_marginTop="30dp"
@@ -76,8 +76,8 @@
 
             <Button
                 android:id="@+id/signup_button"
-                android:layout_width="173dp"
-                android:layout_height="70dp"
+                android:layout_width="139dp"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:text="Sign Up"
