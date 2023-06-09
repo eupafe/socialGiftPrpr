@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">socialGiftPrpr</string>
+    <string name="list_view_title">MY LISTS</string>
+    <string name="name_list">Name</string>
+    <string name="description_list">Description</string>
+    <string name="deadline_list">Deadline</string>
+    <string name="save_list">SAVE</string>
+    <string name="save_list_title">NEW LIST</string>
+    <string name="email">Email</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email">Email</string>
 </resources>

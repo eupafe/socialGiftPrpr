@@ -12,6 +12,18 @@
         android:theme="@style/Theme.SocialGiftPrpr"
         tools:targetApi="31">
         <activity
+            android:name=".Gifts.GiftsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Lists.ListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Lists.AddListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainWindow"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

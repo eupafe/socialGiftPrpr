@@ -1,4 +1,4 @@
-package com.example.socialgiftprpr;
+package com.example.socialgiftprpr.Authentication;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -17,8 +17,12 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.example.socialgiftprpr.R;
+import com.example.socialgiftprpr.mainWindow;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,6 +31,9 @@ public class signUp extends Fragment {
 
     private ImageView imageView;
     private Uri imagePath;
+
+    private Button signUp;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +47,16 @@ public class signUp extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select picture"), 1);
+            }
+        });
+
+        signUp = view.findViewById(R.id.signup_button);
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), mainWindow.class);
+                startActivity(intent);
             }
         });
 
