@@ -1,5 +1,7 @@
-package com.example.socialgiftprpr;
+package com.example.socialgiftprpr.Profile;
 
+import android.content.Intent;
+import android.media.MediaDataSource;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import com.example.socialgiftprpr.Lists.AddListActivity;
+import com.example.socialgiftprpr.MainActivity;
+import com.example.socialgiftprpr.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +21,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
+    ImageButton editProfileButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +67,27 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        ImageButton logoutButton = view.findViewById(R.id.log_out_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Go back to log in / sign up page
+                Intent intent1 = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent1);
+                getActivity().finish();
+            }
+        });
+
+        editProfileButton = (ImageButton) view.findViewById(R.id.edit_profile_button);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent2 = new Intent(v.getContext(), EditProfileActivity.class);
+                startActivity(intent2);
+            }
+        });
+
+        return view;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.socialgiftprpr.Gifts;
+package com.example.socialgiftprpr.Lists.Gifts;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.R;
 
 /**
@@ -70,7 +69,7 @@ public class GiftsFragment extends Fragment {
         seeGift = view.findViewById(R.id.seeButton);
         seeGift.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), GiftsActivity.class);
+                Intent intent = new Intent(v.getContext(), AddGiftActivity.class);
                 startActivity(intent);
             }
         });

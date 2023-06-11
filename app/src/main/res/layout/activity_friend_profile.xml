@@ -73,79 +73,22 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="130dp"
+                    android:layout_marginRight="130dp">
 
                     <ImageButton
                         android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
-                        android:contentDescription="@string/view_reserved"
+                        android:contentDescription="@string/view_lists"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/bookmark"
-                        android:id ="@+id/view_reserved_button"/>
+                        android:src="@drawable/list" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/view_reserved"
-                        android:textColor="@android:color/black"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_button"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginLeft="20dp">
-
-                    <ImageButton
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/edit_profile"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/pen"
-                        android:id ="@+id/edit_profile_button" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/edit_profile"
-                        android:textColor="@android:color/black"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_button"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
-
-                    <ImageButton
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/log_out"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/logout"
-                        android:id ="@+id/log_out_button"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/log_out"
+                        android:text="@string/view_lists"
                         android:textColor="@android:color/black"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -167,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_lists"
+                    android:text="@string/total_lists_friend"
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
@@ -193,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_gifts"
+                    android:text="@string/total_gifts_friend"
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
@@ -219,7 +162,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/friends"
+                    android:text="@string/friends_friend"
                     android:layout_marginLeft="50dp"/>
 
                 <TextView

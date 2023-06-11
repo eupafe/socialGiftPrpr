@@ -2,8 +2,6 @@ package com.example.socialgiftprpr.Authentication;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,22 +10,19 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.example.socialgiftprpr.R;
-import com.example.socialgiftprpr.mainWindow;
+import com.example.socialgiftprpr.MainWindow;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
-public class signUp extends Fragment {
+public class SignUp extends Fragment {
 
     private ImageView imageView;
     private Uri imagePath;
@@ -55,7 +50,7 @@ public class signUp extends Fragment {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), mainWindow.class);
+                Intent intent = new Intent(getActivity(), MainWindow.class);
                 startActivity(intent);
             }
         });

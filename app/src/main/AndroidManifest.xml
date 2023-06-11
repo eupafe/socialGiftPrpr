@@ -12,7 +12,10 @@
         android:theme="@style/Theme.SocialGiftPrpr"
         tools:targetApi="31">
         <activity
-            android:name=".Gifts.GiftsActivity"
+            android:name=".Profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Lists.Gifts.AddGiftActivity"
             android:exported="false" />
         <activity
             android:name=".Lists.ListActivity"
@@ -21,7 +24,7 @@
             android:name=".Lists.AddListActivity"
             android:exported="false" />
         <activity
-            android:name=".mainWindow"
+            android:name=".MainWindow"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

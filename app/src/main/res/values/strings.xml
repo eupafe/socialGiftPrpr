@@ -7,6 +7,20 @@
     <string name="save_list">SAVE</string>
     <string name="save_list_title">NEW LIST</string>
     <string name="email">Email</string>
+    <string name="view_reserved">View reserved</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="log_out">Log out</string>
+    <string name="total_lists">Total lists</string>
+    <string name="total_gifts">Total gifts</string>
+    <string name="friends">Friends</string>
+    <string name="view_lists">View lists</string>
+    <string name="total_lists_friend">Total lists</string>
+    <string name="total_gifts_friend">Total gifts</string>
+    <string name="friends_friend">Friends</string>
+    <string name="name_gift">Name</string>
+    <string name="link_gift">Link</string>
+    <string name="gift_view_title">MY GIFTS</string>
+    <string name="friend_name">Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

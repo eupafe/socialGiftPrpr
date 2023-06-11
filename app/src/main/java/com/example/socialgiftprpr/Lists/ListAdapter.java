@@ -4,24 +4,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.socialgiftprpr.Gifts.GiftsActivity;
+import com.example.socialgiftprpr.Lists.Gifts.AddGiftActivity;
 import com.example.socialgiftprpr.R;
-import com.example.socialgiftprpr.mainWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +46,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             public void onClick(View v) {
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, GiftsActivity.class);
+                Intent intent = new Intent(context, AddGiftActivity.class);
                 context.startActivity(intent);
             }
         });

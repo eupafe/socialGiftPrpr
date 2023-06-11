@@ -3,14 +3,13 @@ package com.example.socialgiftprpr.Lists;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.socialgiftprpr.R;
-import com.example.socialgiftprpr.mainWindow;
+import com.example.socialgiftprpr.MainWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class AddListActivity extends AppCompatActivity {
                 editor.putString("myTasks", listOfTasks);
                 editor.apply();*/
 
-                Intent intent = new Intent(v.getContext(), mainWindow.class);
+                Intent intent = new Intent(v.getContext(), MainWindow.class);
                 startActivity(intent);
             }
         });

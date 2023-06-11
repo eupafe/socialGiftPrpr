@@ -3,11 +3,13 @@
 
     <item android:title="List"
         android:icon="@drawable/list"
-        android:id="@+id/list"/>
+        android:id="@+id/list" />
     <item android:title="Share"
         android:icon="@drawable/share"
-        android:id="@+id/share"/>
+        android:id="@+id/share" />
     <item android:title="Profile"
-        android:icon="@drawable/person"
-        android:id="@+id/profile"/>
+        android:icon="@drawable/user"
+        android:id="@+id/profile" />
+
 </menu>
+

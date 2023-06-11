@@ -5,16 +5,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.socialgiftprpr.R;
-import com.example.socialgiftprpr.mainWindow;
+import com.example.socialgiftprpr.MainWindow;
 
-public class logIn extends Fragment {
+public class Login extends Fragment {
 
     private Button logIn;
     @Override
@@ -27,7 +26,7 @@ public class logIn extends Fragment {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), mainWindow.class);
+                Intent intent = new Intent(getActivity(), MainWindow.class);
                 startActivity(intent);
             }
         });

@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.socialgiftprpr.Authentication.logIn;
-import com.example.socialgiftprpr.Authentication.signUp;
+import com.example.socialgiftprpr.Authentication.Login;
+import com.example.socialgiftprpr.Authentication.SignUp;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -19,9 +19,9 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if(position == 1){
-            return new signUp();
+            return new SignUp();
         }
-        return new logIn();
+        return new Login();
     }
 
     @Override
