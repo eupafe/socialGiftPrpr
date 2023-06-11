@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.Lists.ListAdapter;
@@ -20,6 +22,7 @@ import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,6 +44,8 @@ public class GiftsFragment extends Fragment {
 
     // Button to create a new gift
     private ImageButton addGift;
+
+    private Spinner spinner;
 
     // Recycler view
     private RecyclerView gifts;
@@ -97,14 +102,21 @@ public class GiftsFragment extends Fragment {
             }
         });
 
+        spinner = view.findViewById(R.id.sortSpinner);
+        List<String> items = Arrays.asList("Price","Priority");
+
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, items);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapterSpinner);
+
 
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
         giftEvents = new ArrayList<>();
-        giftEvents.add(new GiftModel("TEDDY", "https", false));
-        adapter = new GiftAdapter(giftEvents);
+        giftEvents.add(new GiftModel("TEDDY", "https", "https", false));
 
+        adapter = new GiftAdapter(giftEvents);
         adapter.setTasks(giftEvents);
         gifts.setAdapter(adapter);
         return view;

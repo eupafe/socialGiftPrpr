@@ -21,6 +21,7 @@
     <string name="link_gift">Link</string>
     <string name="gift_view_title">MY GIFTS</string>
     <string name="friend_name">Name</string>
+    <string name="spinner_title">Sort by</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="list">List</string>

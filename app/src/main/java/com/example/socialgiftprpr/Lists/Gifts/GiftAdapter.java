@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -102,7 +103,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
             super(itemView);
             name = itemView.findViewById(R.id.nameGiftText);
             link = itemView.findViewById(R.id.linkText);
-            reservedCheckBox = itemView.findViewById(R.id.checkBox);
+           // reservedCheckBox = itemView.findViewById(R.id.checkBox);
         }
     }
 
