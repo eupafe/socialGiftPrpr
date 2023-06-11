@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialgiftprpr.Lists.Gifts.AddGiftActivity;
+import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
+import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             public void onClick(View v) {
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, AddGiftActivity.class);
+                Intent intent = new Intent(context, MainWindow.class);
                 context.startActivity(intent);
             }
         });

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="NEW LIST"
+        android:text="@string/new_list_title"
         android:textSize="24sp"
         android:layout_marginTop="50dp"/>
 
@@ -36,9 +36,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="90dp"
                 android:background="@drawable/edittext"
-                android:hint="Name"
+                android:hint="@string/list_name"
                 android:padding="8dp"
-                android:textColorHint="@color/lavender" />
+                android:textColorHint="@color/lavender"/>
 
             <EditText
                 android:id="@+id/list_description"
@@ -47,9 +47,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/edittext"
-                android:hint="Description"
+                android:hint="@string/list_description"
                 android:padding="8dp"
-                android:textColorHint="@color/lavender" />
+                android:textColorHint="@color/lavender"/>
 
             <EditText
                 android:layout_width="300dp"
@@ -58,10 +58,9 @@
                 android:id="@+id/list_deadline"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Deadline"
+                android:hint="@string/list_deadline"
                 android:textColorHint="@color/lavender"
                 android:background="@drawable/edittext"/>
-
 
             <Button
                 android:id="@+id/save_button"
@@ -69,11 +68,10 @@
                 android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:text="SAVE"
+                android:text="@string/save"
                 android:textColorHint="@color/lavender"
                 android:textSize="18sp"
-                app:cornerRadius="15dp" />
-
+                app:cornerRadius="15dp"/>
 
         </LinearLayout>
 

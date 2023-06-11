@@ -24,12 +24,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:iconifiedByDefault="false"
-                android:queryHint="Search a friend..."
-                android:theme="@style/Widget.AppCompat.SearchView" />
+                android:queryHint="@string/search_bar_text"
+                android:theme="@style/Widget.AppCompat.SearchView"/>
 
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
-
 
 </FrameLayout>

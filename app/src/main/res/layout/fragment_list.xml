@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ListFragment">
 
-
     <TextView
         android:id="@+id/toDoListTitle"
         android:layout_width="wrap_content"
@@ -13,8 +12,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginStart="26dp"
         android:text="@string/list_view_title"
-        android:textSize="30dp"
-        />
+        android:textSize="30dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lists"

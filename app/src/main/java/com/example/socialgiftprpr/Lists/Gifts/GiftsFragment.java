@@ -2,16 +2,25 @@ package com.example.socialgiftprpr.Lists.Gifts;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.socialgiftprpr.Lists.AddListActivity;
+import com.example.socialgiftprpr.Lists.ListAdapter;
+import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +38,18 @@ public class GiftsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    // Button to create a new gift
+    private ImageButton addGift;
+
+    // Recycler view
+    private RecyclerView gifts;
+    // Adapter
+    private GiftAdapter adapter;
+    // List of tasks
+    private List<GiftModel> giftEvents;
+    // Shared preferences
+    private SharedPreferences sharedPreferences;
 
     public GiftsFragment() {
         // Required empty public constructor
@@ -66,13 +87,25 @@ public class GiftsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gifts, container, false);
-        seeGift = view.findViewById(R.id.seeButton);
-        seeGift.setOnClickListener(new View.OnClickListener() {
+
+        addGift = (ImageButton) view.findViewById(R.id.addButton);
+        addGift.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AddGiftActivity.class);
                 startActivity(intent);
             }
         });
+
+        // Adapter initialization
+        gifts = (RecyclerView) view.findViewById(R.id.gifts);
+        gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        giftEvents = new ArrayList<>();
+        giftEvents.add(new GiftModel("TEDDY", "https", false));
+        adapter = new GiftAdapter(giftEvents);
+
+        adapter.setTasks(giftEvents);
+        gifts.setAdapter(adapter);
         return view;
+
     }
 }

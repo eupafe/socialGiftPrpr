@@ -25,9 +25,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:id="@+id/profileImage"
-                android:src = "@drawable/add_image"
-                />
-
+                android:src = "@drawable/add_image"/>
 
             <EditText
                 android:layout_width="300dp"
@@ -84,7 +82,6 @@
                 android:textColorHint="@color/lavender"
                 android:textSize="18sp"
                 app:cornerRadius="15dp" />
-
 
         </LinearLayout>
 
