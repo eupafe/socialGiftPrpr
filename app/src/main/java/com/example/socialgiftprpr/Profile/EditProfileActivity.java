@@ -18,7 +18,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        confirmButton = (Button) findViewById(R.id.confirm_button);
+        confirmButton = (Button) findViewById(R.id.save_button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 

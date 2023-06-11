@@ -31,12 +31,11 @@ public class AddListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_list);
 
+        name = (EditText) findViewById(R.id.list_name);
+        description = (EditText) findViewById(R.id.list_description);
+        deadline = (EditText) findViewById(R.id.list_deadline);
 
-        name = (EditText) findViewById(R.id.nameBox);
-        description = (EditText) findViewById(R.id.descriptionBox);
-        deadline = (EditText) findViewById(R.id.deadlineBox);
-
-        saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton = (Button) findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 

@@ -15,11 +15,20 @@
         android:textSize="30dp"
         />
 
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="8dp"
+        android:text="Sort by:" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gifts"
         android:layout_width="408dp"
         android:layout_height="533dp"
-        android:layout_marginTop="85dp"/>
+        android:layout_marginTop="120dp"/>
 
     <ImageButton
         android:id="@+id/addButton"
