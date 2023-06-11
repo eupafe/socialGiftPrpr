@@ -49,7 +49,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
                 Context context = v.getContext();
                 Intent intent = new Intent(context, MainWindow.class);
-                intent.putExtra("see_gifts", true);
+                intent.putExtra("fragment", "giftsFragment");
                 context.startActivity(intent);
             }
         });

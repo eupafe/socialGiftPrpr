@@ -87,14 +87,16 @@ public class GiftsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gifts, container, false);
-/*
+
         addGift = (ImageButton) view.findViewById(R.id.addButton);
         addGift.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Intent intent = new Intent(v.getContext(), AddGiftActivity.class);
                 startActivity(intent);
             }
         });
+
 
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
@@ -104,7 +106,7 @@ public class GiftsFragment extends Fragment {
         adapter = new GiftAdapter(giftEvents);
 
         adapter.setTasks(giftEvents);
-        gifts.setAdapter(adapter);*/
+        gifts.setAdapter(adapter);
         return view;
 
     }

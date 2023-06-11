@@ -28,23 +28,24 @@ public class MainWindow extends AppCompatActivity{
         setContentView(R.layout.activity_main_window);
 
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey("fragment")) {
+            String fragmentType = extras.getString("fragment");
+            if (fragmentType.equals("giftsFragment")) {
+                replaceFragment(new GiftsFragment());
+                bottomNavigationView = findViewById(R.id.bottom_navigation);
+            }
+        }
+        else{
+            replaceFragment(new ListFragment());
+
+        }
             bottomNavigationView = findViewById(R.id.bottom_navigation);
             bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.list:
+                        replaceFragment(new ListFragment());
 
-                        Intent intent = getIntent();
-                        if (intent != null) {
-                            Boolean parametro = intent.getBooleanExtra("see_gifts", false);
-                            if (parametro){
-                                replaceFragment(new GiftsFragment());
-                            }
-
-                        }
-                        else {
-
-                            replaceFragment(new ListFragment());
-                        }
                         return true;
                     case R.id.share:
                         replaceFragment(new ShareFragment());
@@ -56,42 +57,8 @@ public class MainWindow extends AppCompatActivity{
                 return false;
             });
 
-        replaceFragment(new ListFragment());
-
-        /*
-        Intent intent = getIntent();
-
-
-        if (intent != null) {
-            Boolean parametro = Boolean.valueOf(intent.getStringExtra("see_gifts"));
-            if (parametro){
-                replaceFragment(new GiftsFragment());
-            }
-
-        }*/
-        //else {
-
-        //}
-
-
 
     }
-
-        /*
-        mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(mainBinding.getRoot());
-
-        mainBinding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            switch(item.getItemId()){
-
-            }
-            return true;
-
-        });
-
-         */
-
 
     private void replaceFragment(Fragment fragment) {
         /*
