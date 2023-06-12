@@ -22,7 +22,7 @@
 
 
             <EditText
-                android:id="@+id/list_deadline"
+                android:id="@+id/login_email"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
@@ -33,7 +33,7 @@
                 android:textColorHint="@color/lavender" />
 
             <EditText
-                android:id="@+id/signup_password"
+                android:id="@+id/login_password"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"

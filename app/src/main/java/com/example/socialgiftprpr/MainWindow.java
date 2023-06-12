@@ -25,6 +25,8 @@ public class MainWindow extends AppCompatActivity{
     ProfileFragment profileFragment;
     BottomNavigationView bottomNavigationView;
 
+    private String apiKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -32,6 +34,11 @@ public class MainWindow extends AppCompatActivity{
         setContentView(R.layout.activity_main_window);
 
         Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey("access_token")){
+
+            String key = extras.getString("access_token");
+            apiKey = key;
+        }
         if (extras != null && extras.containsKey("fragment")) {
             String fragmentType = extras.getString("fragment");
             if (fragmentType.equals("giftsFragment")) {

@@ -37,6 +37,8 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String apiKey;
+
     public ProfileFragment() {
         // Required empty public constructor
     }

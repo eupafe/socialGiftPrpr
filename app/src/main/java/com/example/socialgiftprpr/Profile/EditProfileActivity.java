@@ -5,15 +5,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class EditProfileActivity extends AppCompatActivity {
 
-    Button confirmButton;
+    private Button confirmButton;
+    private EditText name;
+    private EditText surname;
+    private EditText email;
+    private EditText password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,31 +42,66 @@ public class EditProfileActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                /*
-                SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                String list = preferences.getString("myTasks", "");
-                Gson gson = new Gson();
-                List<ToDoModel> tasks = gson.fromJson(list, new TypeToken<List<ToDoModel>>(){}.getType());
+                String enteredName = name.getText().toString();
+                String enteredSurname = surname.getText().toString();
+                String enteredEmail = email.getText().toString();
+                String enteredPassword = password.getText().toString();
 
-                String nameS = name.getText().toString();
-                String descriptionS = description.getText().toString();
-                String deadlineS = deadline.getText().toString();
-                List<ListModel> lists = new ArrayList<>();
-                lists.add(new ListModel(nameS, descriptionS, deadlineS, false));
+                JsonObjectRequest request = putDataToAPI(enteredName, enteredSurname, enteredEmail, enteredPassword);
 
-                Gson ngson = new Gson();
-                String listOfTasks = ngson.toJson(tasks);
-                editor.putString("myTasks", listOfTasks);
-                editor.apply();
-                */
-
-                Context context = v.getContext();
-                Intent intent = new Intent(context, MainWindow.class);
-                intent.putExtra("fragment", "profileFragment");
-                context.startActivity(intent);
+                Volley.newRequestQueue(getApplicationContext()).add(request);
             }
         });
 
+    }
+
+    public JsonObjectRequest putDataToAPI(String name, String surname, String email, String password) {
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("name", name);
+            jsonBody.put("last_name", surname);
+            jsonBody.put("email", email);
+            jsonBody.put("password", password);
+            jsonBody.put("image", "https://balandrau.salle.url.edu/i3/repositoryimages/photo/47601a8b-dc7f-41a2-a53b-19d2e8f54cd0.png");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                String responseBody = response.toString();
+                System.out.println(responseBody);
+
+                Context context = getApplicationContext();
+                Intent intent = new Intent(context, MainWindow.class);
+                intent.putExtra("fragment", "profileFragment");
+                context.startActivity(intent);
+
+                Toast.makeText(getApplicationContext(), "Data successfully edited", Toast.LENGTH_SHORT).show();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("ERROR");
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer tu_access_token");
+                return headers;
+            }
+        };
+
+        return request;
     }
 }
