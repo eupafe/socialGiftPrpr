@@ -1,5 +1,6 @@
 package com.example.socialgiftprpr.Profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaDataSource;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.MainActivity;
+import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.R;
 
 /**
@@ -93,9 +95,17 @@ public class ProfileFragment extends Fragment {
         viewReservedButton = (ImageButton) view.findViewById(R.id.view_reserved_button);
         viewReservedButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MainWindow.class);
+                intent.putExtra("fragment", "FriendListFragment");
+                //intent.putExtra("title", "RESERVED GIFTS");
+                context.startActivity(intent);
 
             }
         });
+
+
+
 
         return view;
     }

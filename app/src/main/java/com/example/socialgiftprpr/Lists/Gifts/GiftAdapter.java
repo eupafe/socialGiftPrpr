@@ -27,9 +27,12 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
     public List<GiftModel> giftEvents;
 
-    public GiftAdapter(List<GiftModel> giftEvents){
+    private boolean friend;
+
+    public GiftAdapter(List<GiftModel> giftEvents, boolean friend){
         // this.activity = activity;
         this.giftEvents = giftEvents;
+        this.friend = friend;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -55,33 +58,35 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
         });
 
          */
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu menu = new PopupMenu(v.getContext(), v);
-                menu.getMenu().add("Edit");
-                menu.getMenu().add("Delete");
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+        if (!friend) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu menu = new PopupMenu(v.getContext(), v);
+                    menu.getMenu().add("Edit");
+                    menu.getMenu().add("Delete");
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
 
-                        if(item.getTitle().equals("Edit")) {
-                            //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context, AddGiftActivity.class);
-                            context.startActivity(intent);
+                            if (item.getTitle().equals("Edit")) {
+                                //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
+                                Context context = v.getContext();
+                                Intent intent = new Intent(context, AddGiftActivity.class);
+                                context.startActivity(intent);
 
-                        } else if (item.getTitle().equals("Delete")) {
+                            } else if (item.getTitle().equals("Delete")) {
 
-                            //TODO DELETE THE LIST
+                                //TODO DELETE THE LIST
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
-                menu.show();
+                    });
+                    menu.show();
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override

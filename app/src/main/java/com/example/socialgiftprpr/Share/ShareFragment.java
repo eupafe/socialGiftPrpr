@@ -1,8 +1,6 @@
-package com.example.socialgiftprpr;
+package com.example.socialgiftprpr.Share;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,33 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.example.socialgiftprpr.Lists.AddListActivity;
-import com.example.socialgiftprpr.Lists.ListAdapter;
-import com.example.socialgiftprpr.Lists.ListModel;
+import com.example.socialgiftprpr.Lists.Gifts.GiftAdapter;
+import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
+import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the {@link ShareFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
-
-    private TextView title;
-    // Button to create a task
-    private ImageButton addList;
-    // Recycler view
-    private RecyclerView lists;
-    // Adapter
-    private ListAdapter adapter;
-    // List of tasks
-    private List<ListModel> listEvents;
-    // Shared preferences
-    private SharedPreferences sharedPreferences;
+public class ShareFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +35,14 @@ public class ListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListFragment() {
+    // Recycler view
+    private RecyclerView users;
+    // Adapter
+    private UserAdapter adapter;
+    // List of tasks
+    private List<UserModel> userEvents;
+
+    public ShareFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +52,11 @@ public class ListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListFragment.
+     * @return A new instance of fragment ShareFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1, String param2) {
-        ListFragment fragment = new ListFragment();
+    public static ShareFragment newInstance(String param1, String param2) {
+        ShareFragment fragment = new ShareFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -85,26 +77,18 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
-        // Inflate the layout for this fragment
-        addList = (ImageButton) view.findViewById(R.id.addButton);
-        addList.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddListActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        View view = inflater.inflate(R.layout.fragment_share, container, false);
 
         // Adapter initialization
-        lists = (RecyclerView) view.findViewById(R.id.lists);
-        lists.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        listEvents = new ArrayList<>();
-        listEvents.add(new ListModel("HEY", "TODAY", "1/6", false));
-        adapter = new ListAdapter( listEvents, false);
+        users = (RecyclerView) view.findViewById(R.id.users);
+        users.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        userEvents = new ArrayList<>();
+        userEvents.add(new UserModel("Maria"));
 
-        adapter.setTasks(listEvents);
-        lists.setAdapter(adapter);
-
+        adapter = new UserAdapter(userEvents);
+        adapter.setTasks(userEvents);
+        users.setAdapter(adapter);
         return view;
     }
 }

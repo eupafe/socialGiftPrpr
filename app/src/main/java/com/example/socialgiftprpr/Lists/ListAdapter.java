@@ -27,9 +27,12 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
     public List<ListModel> listEvents;
 
-    public ListAdapter(List<ListModel> listEvents){
+    private boolean friend;
+
+    public ListAdapter(List<ListModel> listEvents, boolean friend){
        // this.activity = activity;
         this.listEvents = listEvents;
+        this.friend = friend;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -44,70 +47,83 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         holder.name.setText(list.getName());
         //holder.description.setText(list.getDescription());
         holder.deadline.setText(list.getDeadline());
-        holder.seeButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                Context context = v.getContext();
-                Intent intent = new Intent(context, MainWindow.class);
-                intent.putExtra("fragment", "giftsFragment");
-                context.startActivity(intent);
-            }
-        });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu menu = new PopupMenu(v.getContext(), v);
-                menu.getMenu().add("View description");
-                menu.getMenu().add("Edit");
-                menu.getMenu().add("Delete");
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+        if (!friend) {
+            holder.seeButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                        if(item.getTitle().equals("View description")){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, MainWindow.class);
+                    intent.putExtra("fragment", "giftsFragment");
+                    context.startActivity(intent);
+                }
+            });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu menu = new PopupMenu(v.getContext(), v);
+                    menu.getMenu().add("View description");
+                    menu.getMenu().add("Edit");
+                    menu.getMenu().add("Delete");
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
 
-                            TextView titleTextView = new TextView(v.getContext());
-                            titleTextView.setText("DESCRIPTION");
-                            titleTextView.setGravity(Gravity.CENTER);
-                            builder.setCustomTitle(titleTextView);
+                            if (item.getTitle().equals("View description")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
-                            TextView descriptionTextView = new TextView(v.getContext());
-                            descriptionTextView.setText("heykdnvvvvvvvvvvvvvvvvvvvf");
-                            descriptionTextView.setGravity(Gravity.CENTER);
-                            builder.setView(descriptionTextView);
+                                TextView titleTextView = new TextView(v.getContext());
+                                titleTextView.setText("DESCRIPTION");
+                                titleTextView.setGravity(Gravity.CENTER);
+                                builder.setCustomTitle(titleTextView);
+
+                                TextView descriptionTextView = new TextView(v.getContext());
+                                descriptionTextView.setText("heykdnvvvvvvvvvvvvvvvvvvvf");
+                                descriptionTextView.setGravity(Gravity.CENTER);
+                                builder.setView(descriptionTextView);
 
 
-                            builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
+                                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
 
-                            //TODO ARREGLAR EL DISSENY
+                                //TODO ARREGLAR EL DISSENY
 
+                            } else if (item.getTitle().equals("Edit")) {
+                                //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
+                                Context context = v.getContext();
+                                Intent intent = new Intent(context, AddListActivity.class);
+                                context.startActivity(intent);
+
+                            } else if (item.getTitle().equals("Delete")) {
+
+                                //TODO DELETE THE LIST
+                            }
+                            return true;
                         }
-                        else if(item.getTitle().equals("Edit")) {
-                           //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context, AddListActivity.class);
-                            context.startActivity(intent);
+                    });
+                    menu.show();
 
-                        } else if (item.getTitle().equals("Delete")) {
+                }
+            });
+        }
+        else{
+            holder.seeButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                            //TODO DELETE THE LIST
-                        }
-                        return true;
-                    }
-                });
-                menu.show();
-
-            }
-        });
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, MainWindow.class);
+                    intent.putExtra("fragment", "FriendGiftFragment");
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

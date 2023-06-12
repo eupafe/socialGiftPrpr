@@ -1,8 +1,5 @@
-package com.example.socialgiftprpr.Lists.Gifts;
+package com.example.socialgiftprpr.Share;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,12 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.example.socialgiftprpr.Lists.AddListActivity;
-import com.example.socialgiftprpr.Lists.ListAdapter;
-import com.example.socialgiftprpr.Lists.ListModel;
+import com.example.socialgiftprpr.Lists.Gifts.GiftAdapter;
+import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
@@ -27,12 +22,11 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GiftsFragment#newInstance} factory method to
+ * Use the {@link FriendGiftFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GiftsFragment extends Fragment {
+public class FriendGiftFragment extends Fragment {
 
-    private ImageButton seeGift;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,9 +36,6 @@ public class GiftsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // Button to create a new gift
-    private ImageButton addGift;
-
     private Spinner spinner;
 
     // Recycler view
@@ -53,10 +44,7 @@ public class GiftsFragment extends Fragment {
     private GiftAdapter adapter;
     // List of tasks
     private List<GiftModel> giftEvents;
-    // Shared preferences
-    private SharedPreferences sharedPreferences;
-
-    public GiftsFragment() {
+    public FriendGiftFragment() {
         // Required empty public constructor
     }
 
@@ -66,11 +54,11 @@ public class GiftsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GiftsFragment.
+     * @return A new instance of fragment FriendGiftFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GiftsFragment newInstance(String param1, String param2) {
-        GiftsFragment fragment = new GiftsFragment();
+    public static FriendGiftFragment newInstance(String param1, String param2) {
+        FriendGiftFragment fragment = new FriendGiftFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -87,20 +75,10 @@ public class GiftsFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gifts, container, false);
-
-        addGift = (ImageButton) view.findViewById(R.id.addButton);
-        addGift.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent intent = new Intent(v.getContext(), AddGiftActivity.class);
-                startActivity(intent);
-            }
-        });
+        View view = inflater.inflate(R.layout.fragment_friend_gift, container, false);
 
         spinner = view.findViewById(R.id.sortSpinner);
         List<String> items = Arrays.asList("Price","Priority");
@@ -114,12 +92,11 @@ public class GiftsFragment extends Fragment {
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
         giftEvents = new ArrayList<>();
-        giftEvents.add(new GiftModel("TEDDY", "https", "https", false));
+        giftEvents.add(new GiftModel("Bear", "https", "https", false));
 
-        adapter = new GiftAdapter(giftEvents, false);
+        adapter = new GiftAdapter(giftEvents, true);
         adapter.setTasks(giftEvents);
         gifts.setAdapter(adapter);
         return view;
-
     }
 }

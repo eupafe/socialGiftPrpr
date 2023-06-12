@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
+import com.example.socialgiftprpr.Lists.ListAdapter;
+import com.example.socialgiftprpr.Share.FriendGiftFragment;
+import com.example.socialgiftprpr.Share.FriendListFragment;
+import com.example.socialgiftprpr.Share.FriendProfileFragment;
+import com.example.socialgiftprpr.Share.ShareFragment;
 import com.example.socialgiftprpr.databinding.ActivityMainBinding;
 import com.example.socialgiftprpr.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,10 +41,48 @@ public class MainWindow extends AppCompatActivity{
                 replaceFragment(new ProfileFragment());
 
             }
+            else if(fragmentType.equals("friendProfileFragment")){
+                replaceFragment(new FriendProfileFragment());
+
+            }
+            else if(fragmentType.equals("FriendListFragment")){
+
+                /*
+                FriendListFragment friendListFragment = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("friendListFragment");
+
+                if (friendListFragment != null) {
+                    if (extras.containsKey("title")) {
+                        String title = extras.getString("title");
+                        friendListFragment.setTitle(title);
+                    }
+                } else {
+                    // El fragmento no está agregado actualmente, crea una nueva instancia y pásale los argumentos si es necesario
+                    friendListFragment = new FriendListFragment();
+                    friendListFragment.setArguments(getIntent().getExtras());
+                }*/
+
+                replaceFragment(new FriendListFragment());
+
+                /*
+                FriendListFragment friendListFragment = new FriendListFragment();
+
+                if (extras.containsKey("title")){
+                    String title = extras.getString("title");
+                    friendListFragment.setTitle(title);
+
+                }
+                replaceFragment(friendListFragment);*/
+
+            }
+            else if(fragmentType.equals("FriendGiftFragment")){
+                replaceFragment(new FriendGiftFragment());
+
+            }
 
             bottomNavigationView = findViewById(R.id.bottom_navigation);
         }
         else{
+
             replaceFragment(new ListFragment());
 
         }

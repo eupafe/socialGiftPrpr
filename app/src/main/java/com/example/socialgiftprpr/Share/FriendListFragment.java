@@ -1,8 +1,5 @@
-package com.example.socialgiftprpr;
+package com.example.socialgiftprpr.Share;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,34 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.Lists.ListAdapter;
 import com.example.socialgiftprpr.Lists.ListModel;
+import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the {@link FriendListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
-
-    private TextView title;
-    // Button to create a task
-    private ImageButton addList;
-    // Recycler view
-    private RecyclerView lists;
-    // Adapter
-    private ListAdapter adapter;
-    // List of tasks
-    private List<ListModel> listEvents;
-    // Shared preferences
-    private SharedPreferences sharedPreferences;
+public class FriendListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +34,14 @@ public class ListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListFragment() {
+    private TextView titleText;
+    private RecyclerView friendLists;
+    // Adapter
+    private ListAdapter adapter;
+    // List of tasks
+    private List<ListModel> friendListEvents;
+
+    public FriendListFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +51,11 @@ public class ListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListFragment.
+     * @return A new instance of fragment FriendListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1, String param2) {
-        ListFragment fragment = new ListFragment();
+    public static FriendListFragment newInstance(String param1, String param2) {
+        FriendListFragment fragment = new FriendListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,30 +72,27 @@ public class ListFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
         // Inflate the layout for this fragment
-        addList = (ImageButton) view.findViewById(R.id.addButton);
-        addList.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddListActivity.class);
-                startActivity(intent);
-            }
-        });
+        View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
 
+        titleText = view.findViewById(R.id.listTitle);
         // Adapter initialization
-        lists = (RecyclerView) view.findViewById(R.id.lists);
-        lists.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        listEvents = new ArrayList<>();
-        listEvents.add(new ListModel("HEY", "TODAY", "1/6", false));
-        adapter = new ListAdapter( listEvents, false);
-
-        adapter.setTasks(listEvents);
-        lists.setAdapter(adapter);
+        friendLists = (RecyclerView) view.findViewById(R.id.friendLists);
+        friendLists.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        friendListEvents = new ArrayList<>();
+        friendListEvents .add(new ListModel("HEYyyyy", "TODAY", "1/6", false));
+        adapter = new ListAdapter( friendListEvents, true);
+        adapter.setTasks(friendListEvents );
+        friendLists.setAdapter(adapter);
 
         return view;
+    }
+
+    public void setTitle(String title) {
+        titleText.setText(title);
+
     }
 }

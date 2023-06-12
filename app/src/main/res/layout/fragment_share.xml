@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShareFragment">
+    tools:context=".Share.ShareFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,5 +30,11 @@
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users"
+        android:layout_width="408dp"
+        android:layout_height="533dp"
+        android:layout_marginTop="100dp" />
 
 </FrameLayout>

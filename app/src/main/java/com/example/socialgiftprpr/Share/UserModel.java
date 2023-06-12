@@ -1,4 +1,4 @@
-package com.example.socialgiftprpr.Profile;
+package com.example.socialgiftprpr.Share;
 
 public class UserModel {
 
@@ -13,6 +13,10 @@ public class UserModel {
     // Total number of friends
     private int numFriends;
 
+    public UserModel(String name){
+        this.name = name;
+    }
+
     public UserModel(String name, String surname, int numLists, int numGifts, int numFriends){
         this.name = name;
         this.surname = surname;
@@ -21,4 +25,7 @@ public class UserModel {
         this.numFriends = numFriends;
     }
 
+    public String getName() {
+        return name;
+    }
 }

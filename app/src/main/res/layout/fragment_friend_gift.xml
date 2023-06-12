@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Share.FriendGiftFragment">
+
+    <TextView
+        android:id="@+id/giftsListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="150dp"
+        android:text="List's name"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/giftsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="130dp"
+        android:text="@string/gift_view_title"
+        android:textSize="30dp"/>
+
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="26dp"
+        android:prompt="@string/spinner_title"
+        android:spinnerMode="dropdown"
+        android:popupBackground="@color/lavender" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gifts"
+        android:layout_width="408dp"
+        android:layout_height="533dp"
+        android:layout_marginTop="150dp"/>
+
+
+</FrameLayout>

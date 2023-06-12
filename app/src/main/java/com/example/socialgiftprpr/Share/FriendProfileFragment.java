@@ -1,5 +1,8 @@
-package com.example.socialgiftprpr;
+package com.example.socialgiftprpr.Share;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,13 +10,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import com.example.socialgiftprpr.Lists.AddListActivity;
+import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ShareFragment#newInstance} factory method to
+ * Use the {@link FriendProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShareFragment extends Fragment {
+public class FriendProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +32,8 @@ public class ShareFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ShareFragment() {
+    private ImageButton viewList;
+    public FriendProfileFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +43,11 @@ public class ShareFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ShareFragment.
+     * @return A new instance of fragment FriendProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShareFragment newInstance(String param1, String param2) {
-        ShareFragment fragment = new ShareFragment();
+    public static FriendProfileFragment newInstance(String param1, String param2) {
+        FriendProfileFragment fragment = new FriendProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -55,10 +64,21 @@ public class ShareFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_share, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend_profile, container, false);
+
+        viewList = (ImageButton) view.findViewById(R.id.viewListButton);
+        viewList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MainWindow.class);
+                intent.putExtra("fragment", "FriendListFragment");
+                context.startActivity(intent);
+            }
+        });
+        return view;
     }
 }
