@@ -27,14 +27,18 @@ public class MainWindow extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_window);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey("fragment")) {
             String fragmentType = extras.getString("fragment");
             if (fragmentType.equals("giftsFragment")) {
                 replaceFragment(new GiftsFragment());
-                bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+            } else if(fragmentType.equals("profileFragment")){
+                replaceFragment(new ProfileFragment());
+
             }
+
+            bottomNavigationView = findViewById(R.id.bottom_navigation);
         }
         else{
             replaceFragment(new ListFragment());

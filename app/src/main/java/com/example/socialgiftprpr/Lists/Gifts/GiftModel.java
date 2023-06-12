@@ -6,7 +6,6 @@ public class GiftModel {
     private String name;
     // Link of the list
     private String link;
-
     private String priority;
     // If the gift is saved or not
     private boolean save;

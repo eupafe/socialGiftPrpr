@@ -16,7 +16,6 @@ import java.util.List;
 
 public class AddListActivity extends AppCompatActivity {
 
-
     // Box to input the name of the list
     private EditText name;
     // Box to input the description of the list

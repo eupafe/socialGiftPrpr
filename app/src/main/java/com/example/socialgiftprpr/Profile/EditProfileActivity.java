@@ -1,5 +1,6 @@
 package com.example.socialgiftprpr.Profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,8 +42,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 editor.apply();
                 */
 
-                Intent intent = new Intent(EditProfileActivity.this, MainWindow.class);
-                startActivity(intent);
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MainWindow.class);
+                intent.putExtra("fragment", "profileFragment");
+                context.startActivity(intent);
             }
         });
 

@@ -104,6 +104,7 @@ public class ListFragment extends Fragment {
 
         adapter.setTasks(listEvents);
         lists.setAdapter(adapter);
+
         return view;
     }
 }
