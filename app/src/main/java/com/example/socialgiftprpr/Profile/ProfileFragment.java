@@ -2,6 +2,7 @@ package com.example.socialgiftprpr.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaDataSource;
 import android.os.Bundle;
 
@@ -11,11 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.MainActivity;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +56,9 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
 
     private String apiKey;
+
+    private TextView name;
+    private TextView email;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -75,6 +96,11 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        name = view.findViewById(R.id.profile_name);
+        email = view.findViewById(R.id.profile_email);
+
+        getDataFromAPI();
+
         ImageButton logoutButton = view.findViewById(R.id.log_out_button);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,9 +132,60 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
-
         return view;
     }
+
+    public void getDataFromAPI() {
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
+        String mail = sharedPreferences.getString("email", null);
+
+        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=" + mail;
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try{
+                    JSONObject jsonObject = response.getJSONObject(0);
+                    String nameJSON = jsonObject.getString("name");
+                    String lastNameJSON = jsonObject.getString("last_name");
+                    String emailJSON = jsonObject.getString("email");
+
+                    String fullName = nameJSON + " " + lastNameJSON;
+                    name.setText(fullName);
+                    email.setText(emailJSON);
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
+                String apiKey = sharedPreferences.getString("apiKey", null);
+
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + apiKey);
+
+                return headers;
+            }
+        };
+
+        queue.add(request);
+    }
+
 }

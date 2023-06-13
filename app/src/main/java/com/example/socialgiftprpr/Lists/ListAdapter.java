@@ -78,7 +78,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                                 builder.setCustomTitle(titleTextView);
 
                                 TextView descriptionTextView = new TextView(v.getContext());
-                                descriptionTextView.setText("heykdnvvvvvvvvvvvvvvvvvvvf");
+                                descriptionTextView.setText(list.getDescription());
                                 descriptionTextView.setGravity(Gravity.CENTER);
                                 builder.setView(descriptionTextView);
 
@@ -99,11 +99,14 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                                 //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, AddListActivity.class);
+                                intent.putExtra("edit_list_activity", "EDIT LIST");
+                                intent.putExtra("edit_value", list.getId());
                                 context.startActivity(intent);
 
                             } else if (item.getTitle().equals("Delete")) {
 
                                 //TODO DELETE THE LIST
+
                             }
                             return true;
                         }

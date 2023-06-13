@@ -83,7 +83,7 @@ public class FriendListFragment extends Fragment {
         friendLists = (RecyclerView) view.findViewById(R.id.friendLists);
         friendLists.setLayoutManager(new LinearLayoutManager(view.getContext()));
         friendListEvents = new ArrayList<>();
-        friendListEvents .add(new ListModel("HEYyyyy", "TODAY", "1/6", false));
+        //friendListEvents .add(new ListModel("HEYyyyy", "TODAY", "1/6", false));
         adapter = new ListAdapter( friendListEvents, true);
         adapter.setTasks(friendListEvents );
         friendLists.setAdapter(adapter);

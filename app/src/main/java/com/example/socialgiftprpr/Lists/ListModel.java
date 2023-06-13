@@ -2,7 +2,7 @@ package com.example.socialgiftprpr.Lists;
 
 public class ListModel {
 
-
+    private int id;
     // Name of the list
     private String name;
     // Description of the list
@@ -12,13 +12,17 @@ public class ListModel {
     // If the task is saved or not
     private boolean save;
 
-    public ListModel(String name, String description, String deadline, boolean save){
+    public ListModel(int id, String name, String description, String deadline, boolean save){
+            this.id = id;
             this.name = name;
             this.description = description;
             this.deadline = deadline;
             this.save = save;
     }
     // Getters
+    public int getId(){
+        return id;
+    }
     public String getName(){
             return name;
         }

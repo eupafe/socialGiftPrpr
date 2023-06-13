@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
-import com.example.socialgiftprpr.Lists.ListAdapter;
+import com.example.socialgiftprpr.Lists.ListFragment;
 import com.example.socialgiftprpr.Share.FriendGiftFragment;
 import com.example.socialgiftprpr.Share.FriendListFragment;
 import com.example.socialgiftprpr.Share.FriendProfileFragment;
@@ -36,8 +38,12 @@ public class MainWindow extends AppCompatActivity{
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey("access_token")){
 
-            String key = extras.getString("access_token");
-            apiKey = key;
+            SharedPreferences sharedPreferences = getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
+
+            apiKey = extras.getString("access_token");
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("apiKey", apiKey);
+            editor.apply();
         }
         if (extras != null && extras.containsKey("fragment")) {
             String fragmentType = extras.getString("fragment");

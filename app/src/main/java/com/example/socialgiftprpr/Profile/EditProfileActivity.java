@@ -2,6 +2,7 @@ package com.example.socialgiftprpr.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +39,12 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        confirmButton = (Button) findViewById(R.id.save_button);
+        name = findViewById(R.id.edit_name);
+        surname = findViewById(R.id.edit_surname);
+        email = findViewById(R.id.edit_email);
+        password = findViewById(R.id.edit_password);
+
+        confirmButton = (Button) findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -80,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 Context context = getApplicationContext();
                 Intent intent = new Intent(context, MainWindow.class);
                 intent.putExtra("fragment", "profileFragment");
-                context.startActivity(intent);
+                startActivity(intent);
 
                 Toast.makeText(getApplicationContext(), "Data successfully edited", Toast.LENGTH_SHORT).show();
             }
@@ -96,8 +102,12 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
+                SharedPreferences sharedPreferences = getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
+                String apiKey = sharedPreferences.getString("apiKey", null);
+
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer tu_access_token");
+                headers.put("Authorization", "Bearer " + apiKey);
+
                 return headers;
             }
         };
