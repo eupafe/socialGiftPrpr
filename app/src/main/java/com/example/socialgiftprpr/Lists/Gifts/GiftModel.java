@@ -1,38 +1,46 @@
 package com.example.socialgiftprpr.Lists.Gifts;
 
-public class GiftModel {
+import android.os.Parcelable;
 
-    // Name of the gift
-    private String name;
+import java.io.Serializable;
+
+public class GiftModel implements Serializable{
+
+    private int giftId;
+    private int wishlistId;
     // Link of the list
-    private String link;
-    private String priority;
+    private String productUrl;
+    private int priority;
     // If the gift is saved or not
     private boolean save;
 
-    public GiftModel(String name,String priority,  String link,  boolean save){
-        this.name = name;
+    public GiftModel(int giftId, int wishlistId, String productUrl, int priority, Boolean save){
+        this.giftId = giftId;
+        this.wishlistId = wishlistId;
+        this.productUrl = productUrl;
         this.priority = priority;
-        this.link = link;
         this.save = save;
     }
     // Getters
-    public String getName(){
-        return name;
+    public int getGiftId(){
+        return giftId;
     }
-    public String getLink() {
-        return link;
+    public int getWishlistId(){
+        return wishlistId;
+    }
+    public String getProductUrl() {
+        return productUrl;
+    }
+    public int getPriority(){
+        return priority;
     }
     public boolean getSave(){
         return save;
     }
 
     // Setters
-    public void setName(String name){
-        this.name = name;
-    }
-    public void setLink(String link) {
-        this.link = link;
+    public void setProductUrl(String productUrl) {
+        this.productUrl = productUrl;
     }
     public void setSave(Boolean save){
         this.save = save;

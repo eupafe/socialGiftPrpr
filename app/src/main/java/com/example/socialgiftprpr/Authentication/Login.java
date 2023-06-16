@@ -4,33 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 public class Login extends Fragment {
 
@@ -54,19 +38,43 @@ public class Login extends Fragment {
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                SharedPreferences preferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
+                SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("email", enteredEmail);
                 editor.apply();
 
+                /*
                 JsonObjectRequest request = postDataToAPI(enteredEmail, enteredPassword);
 
                 Volley.newRequestQueue(getContext()).add(request);
+                 */
+
+                UserDAO userDAO = new UserDAO();
+                //String accessToken = userDAO.login(enteredEmail, enteredPassword);
+
+                userDAO.login(enteredEmail, enteredPassword, new UserDAO.UserCallback() {
+                    @Override
+                    public void onSuccess(String accessToken) {
+                        Intent intent = new Intent(getContext(), MainWindow.class);
+                        intent.putExtra("access_token", accessToken);
+                        startActivity(intent);
+                    }
+                    @Override
+                    public void onFailure(IOException e) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Wrong credentials. Please, try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
         return view;
     }
 
+    /*
     public JsonObjectRequest postDataToAPI(String email, String password) {
 
         JSONObject jsonBody = new JSONObject();
@@ -109,4 +117,6 @@ public class Login extends Fragment {
 
         return request;
     }
+
+     */
 }

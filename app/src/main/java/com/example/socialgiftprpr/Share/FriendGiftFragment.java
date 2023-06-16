@@ -87,7 +87,7 @@ public class FriendGiftFragment extends Fragment {
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterSpinner);
 
-
+        /*
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -97,6 +97,8 @@ public class FriendGiftFragment extends Fragment {
         adapter = new GiftAdapter(giftEvents, true);
         adapter.setTasks(giftEvents);
         gifts.setAdapter(adapter);
+
+         */
         return view;
     }
 }

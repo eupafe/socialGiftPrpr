@@ -1,23 +1,17 @@
 package com.example.socialgiftprpr.Lists.Gifts;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.socialgiftprpr.Lists.Gifts.AddGiftActivity;
-import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.R;
 
 import java.util.ArrayList;
@@ -44,9 +38,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     public void onBindViewHolder(GiftAdapter.ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         GiftModel gift = giftEvents.get(pos);
-        holder.name.setText(gift.getName());
         //holder.description.setText(list.getDescription());
-        holder.link.setText(gift.getLink());
+        holder.link.setText(gift.getProductUrl());
         /*
         holder.reservedCheckBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -106,7 +99,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
         ViewHolder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.nameGiftText);
+            //name = itemView.findViewById(R.id.nameGiftText);
             link = itemView.findViewById(R.id.linkText);
            // reservedCheckBox = itemView.findViewById(R.id.checkBox);
         }

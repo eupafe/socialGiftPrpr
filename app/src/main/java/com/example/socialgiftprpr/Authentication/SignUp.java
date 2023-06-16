@@ -2,14 +2,14 @@ package com.example.socialgiftprpr.Authentication;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,26 +18,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
-
 import java.io.IOException;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class SignUp extends Fragment {
 
     private ImageView imageView;
     private Uri imagePath;
-
     private EditText name;
     private EditText surname;
     private EditText email;
@@ -76,17 +65,36 @@ public class SignUp extends Fragment {
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
+                SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("email", enteredEmail);
+                editor.apply();
+
+                /*
                 JsonObjectRequest request = postDataToAPI(enteredName, enteredSurname, enteredEmail, enteredPassword);
 
                 Volley.newRequestQueue(getContext()).add(request);
 
-                if (true) {
-                    Intent intent = new Intent(getActivity(), MainWindow.class);
-                    startActivity(intent);
-                } else{
-                    Toast.makeText(getActivity(), "Wrong credentials. Please, try again", Toast.LENGTH_SHORT).show();
-                }
+                 */
 
+                UserDAO userDAO = new UserDAO();
+                userDAO.signup(enteredName, enteredSurname, enteredEmail, enteredPassword, new UserDAO.UserCallback() {
+                    @Override
+                    public void onSuccess(String successful) {
+                        Intent intent = new Intent(getActivity(), MainWindow.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Sign up failed. Please, try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
 
@@ -116,6 +124,7 @@ public class SignUp extends Fragment {
 
     }
 
+    /*
     public JsonObjectRequest postDataToAPI(String name, String surname, String email, String password) {
 
         JSONObject jsonBody = new JSONObject();
@@ -151,5 +160,7 @@ public class SignUp extends Fragment {
 
         return request;
     }
+
+     */
 
 }

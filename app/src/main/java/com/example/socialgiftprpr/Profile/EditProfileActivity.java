@@ -1,30 +1,12 @@
 package com.example.socialgiftprpr.Profile;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -53,14 +35,17 @@ public class EditProfileActivity extends AppCompatActivity {
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
+                /*
                 JsonObjectRequest request = putDataToAPI(enteredName, enteredSurname, enteredEmail, enteredPassword);
 
                 Volley.newRequestQueue(getApplicationContext()).add(request);
+
+                 */
             }
         });
 
     }
-
+    /*
     public JsonObjectRequest putDataToAPI(String name, String surname, String email, String password) {
 
         JSONObject jsonBody = new JSONObject();
@@ -114,4 +99,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         return request;
     }
+
+     */
 }

@@ -17,23 +17,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.socialgiftprpr.Persistence.ListDAO;
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,14 +103,61 @@ public class ListFragment extends Fragment {
         lists.setLayoutManager(new LinearLayoutManager(view.getContext()));
         listEvents = new ArrayList<>();
 
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+        String email = sharedPreferences.getString("email", null);
+
+        UserDAO userDAO = new UserDAO();
+        userDAO.getUserIdFromAPI(email, apiKey, new UserDAO.UserCallback() {
+            @Override
+            public void onSuccess(String id) {
+
+                System.out.println("ID: " + id);
+                ListDAO listDAO = new ListDAO();
+                listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback(){
+                    @Override
+                    public void onSuccess(List<ListModel> list) {
+                        System.out.println("LIST: " + list);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter = new ListAdapter(list, false);
+                                lists.setAdapter(adapter);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //listEvents = listDAO.getAllListsFromAPI(userDAO.getUserIdByEmailFromAPI());
         //getDataFromAPI();
-        getAllListsFromAPI();
+        //getAllListsFromAPI();
+
+        /*
+        System.out.println("LIST EVENTS: " + listEvents);
+        adapter = new ListAdapter(listEvents, false);
+
+        adapter.setTasks(listEvents);
+        lists.setAdapter(adapter);
+
+         */
 
         //listEvents.add(new ListModel("HEY", "TODAY", "1/6", false));
 
         return view;
     }
 
+    /*
     public void getAllListsFromAPI() {
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
@@ -239,5 +276,6 @@ public class ListFragment extends Fragment {
         queue.add(request);
     }
 
+     */
 
 }

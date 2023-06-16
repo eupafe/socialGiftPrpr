@@ -1,5 +1,10 @@
 package com.example.socialgiftprpr.Lists;
 
+import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListModel {
 
     private int id;
@@ -9,15 +14,14 @@ public class ListModel {
     private String description;
     // Deadline of the list
     private String deadline;
-    // If the task is saved or not
-    private boolean save;
+    private ArrayList<GiftModel> gifts = new ArrayList<>();
 
-    public ListModel(int id, String name, String description, String deadline, boolean save){
+    public ListModel(int id, String name, String description, String deadline, ArrayList<GiftModel> gifts){
             this.id = id;
             this.name = name;
             this.description = description;
             this.deadline = deadline;
-            this.save = save;
+            this.gifts = gifts;
     }
     // Getters
     public int getId(){
@@ -32,9 +36,10 @@ public class ListModel {
     public String getDeadline() {
         return deadline;
     }
-    public boolean getSave(){
-            return save;
-        }
+
+    public ArrayList<GiftModel> getGifts(){
+        return gifts;
+    }
 
         // Setters
     public void setName(String name){
@@ -46,17 +51,5 @@ public class ListModel {
     public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
-    public void setSave(Boolean save){
-            this.save = save;
-        }
 
-    @Override
-    public String toString() {
-        return "ListModel{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", deadline='" + deadline + '\'' +
-                ", save=" + save +
-                '}';
-    }
 }

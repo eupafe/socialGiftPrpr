@@ -26,7 +26,6 @@ import java.util.List;
 public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
     public List<ListModel> listEvents;
-
     private boolean friend;
 
     public ListAdapter(List<ListModel> listEvents, boolean friend){
@@ -55,7 +54,13 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                     Context context = v.getContext();
                     Intent intent = new Intent(context, MainWindow.class);
                     intent.putExtra("fragment", "giftsFragment");
+                    intent.putExtra("listName", list.getName());
+                    intent.putExtra("listGifts", list.getGifts());
+                    intent.putExtra("listId", list.getId());
+                    System.out.println("Id of a list: " + list.getId());
+                    System.out.println("all gifts of a list: " + list.getGifts());
                     context.startActivity(intent);
+
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener() {

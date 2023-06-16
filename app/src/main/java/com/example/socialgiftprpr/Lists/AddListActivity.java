@@ -12,27 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AddListActivity extends AppCompatActivity {
 
@@ -45,6 +30,8 @@ public class AddListActivity extends AppCompatActivity {
     private EditText deadline;
     // Button to save the list
     private Button saveButton;
+
+    private JSONObject gifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,35 +52,46 @@ public class AddListActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                /*
-                SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                String list = preferences.getString("myTasks", "");
-                Gson gson = new Gson();
-                List<ToDoModel> tasks = gson.fromJson(list, new TypeToken<List<ToDoModel>>(){}.getType());*/
-
                 String enteredName = name.getText().toString();
                 String enteredDescription = description.getText().toString();
                 String enteredDeadline = deadline.getText().toString();
-                //List<ListModel> lists = new ArrayList<>();
-                //lists.add(new ListModel(ente, descriptionS, deadlineS, false));
-                /*
-                Gson ngson = new Gson();
-                String listOfTasks = ngson.toJson(tasks);
-                editor.putString("myTasks", listOfTasks);
-                editor.apply();*/
+
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                String apiKey = sharedPreferences.getString("apiKey", null);
 
                 if(t != null){
 
                     String value = getIntent().getStringExtra("edit_activity");
+                    // TODO: mètode PUT per editar una llista
+                    /*
                     if(value != null){
+
                         JsonObjectRequest request = putDataToAPI(value, enteredName, enteredDescription, enteredDeadline);
+                        Volley.newRequestQueue(getApplicationContext()).add(request);
                     }
+
+                     */
 
                 } else{
 
+                    ListDAO listDAO = new ListDAO();
+                    listDAO.addListToAPI(apiKey, enteredName, enteredDescription, enteredDeadline, new ListDAO.ListCallback() {
+                        @Override
+                        public void onSuccess(List<ListModel> listEvents) {
+                            Toast.makeText(getApplicationContext(), "List successfully added!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(getApplicationContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    /*
                     JsonObjectRequest request = postDataToAPI(enteredName, enteredDescription, enteredDeadline);
                     Volley.newRequestQueue(getApplicationContext()).add(request);
+
+                     */
                 }
 
                 Intent intent = new Intent(v.getContext(), MainWindow.class);
@@ -102,6 +100,7 @@ public class AddListActivity extends AppCompatActivity {
         });
     }
 
+    /*
     public JsonObjectRequest postDataToAPI(String name, String description, String deadline) {
 
 
@@ -160,6 +159,7 @@ public class AddListActivity extends AppCompatActivity {
 
     public JsonObjectRequest putDataToAPI(String value, String name, String description, String deadline) {
 
+        System.out.println("ID IS : " + value);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", name);
@@ -209,5 +209,7 @@ public class AddListActivity extends AppCompatActivity {
 
         return request;
     }
+
+     */
 
 }
