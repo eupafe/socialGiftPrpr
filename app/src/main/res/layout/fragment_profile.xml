@@ -171,6 +171,7 @@
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
+                    android:id="@+id/total_lists_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_lists_number"
@@ -197,6 +198,7 @@
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
+                    android:id="@+id/total_gifts_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_gifts_number"
@@ -223,6 +225,7 @@
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
+                    android:id="@+id/total_friends_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_friends_number"

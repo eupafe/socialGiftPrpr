@@ -2,6 +2,7 @@ package com.example.socialgiftprpr.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,10 +12,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.socialgiftprpr.Lists.ListAdapter;
+import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainActivity;
 import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.ListDAO;
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -27,6 +47,10 @@ public class ProfileFragment extends Fragment {
     ImageButton editProfileButton;
 
     ImageButton viewReservedButton;
+
+    private TextView totalLists;
+    private TextView totalGifts;
+    private TextView totalFriends;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,10 +102,41 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+        String emailUser = sharedPreferences.getString("email", null);
+
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
+        totalLists = view.findViewById(R.id.total_lists_counter);
+        totalGifts = view.findViewById(R.id.total_gifts_counter);
+        totalFriends = view.findViewById(R.id.total_friends_counter);
 
-        //getDataFromAPI();
+        email.setText(emailUser);
+        /*
+        totalLists.setText();
+        totalGifts.setText();
+        totalFriends.setText(0);
+
+         */
+
+        UserDAO userDAO = new UserDAO();
+        userDAO.getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
+            @Override
+            public void onSuccess(String id, String nameUser) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        name.setText(nameUser);
+                    }
+                });
+
+            }
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         ImageButton logoutButton = view.findViewById(R.id.log_out_button);
         logoutButton.setOnClickListener(new View.OnClickListener() {

@@ -110,7 +110,7 @@ public class ListFragment extends Fragment {
         UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(email, apiKey, new UserDAO.UserCallback() {
             @Override
-            public void onSuccess(String id) {
+            public void onSuccess(String id, String name) {
 
                 System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();

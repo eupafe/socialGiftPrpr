@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,10 +17,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialgiftprpr.Lists.Gifts.AddGiftActivity;
+import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
 import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.GiftDAO;
+import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +71,10 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                    String apiKey = sharedPreferences.getString("apiKey", null);
+
                     PopupMenu menu = new PopupMenu(v.getContext(), v);
                     menu.getMenu().add("View description");
                     menu.getMenu().add("Edit");
@@ -105,12 +114,28 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, AddListActivity.class);
                                 intent.putExtra("edit_list_activity", "EDIT LIST");
-                                intent.putExtra("edit_value", list.getId());
+                                intent.putExtra("edit_value", String.valueOf(list.getId()));
                                 context.startActivity(intent);
 
                             } else if (item.getTitle().equals("Delete")) {
 
                                 //TODO DELETE THE LIST
+                                ListDAO listDAO = new ListDAO();
+                                listDAO.deleteListFromAPI(list.getId(), apiKey, new ListDAO.ListCallback() {
+                                    @Override
+                                    public void onSuccess(List<ListModel> lists) {
+
+                                        Context context = v.getContext();
+                                        Intent intent = new Intent(context, MainWindow.class);
+                                        context.startActivity(intent);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        //Toast.makeText(v.getContext(), "ERROR: gift NOT deleted", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
                             }
                             return true;

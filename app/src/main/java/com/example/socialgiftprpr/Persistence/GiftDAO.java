@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +161,119 @@ public class GiftDAO {
 
         });
 
+    }
+
+    public void editGiftToAPI(String id, String priority, String link, String apiKey, GiftCallback callback) {
+
+        getGiftById(id, apiKey, new GiftDAO.GiftCallback() {
+            @Override
+            public void onSuccess(List<GiftModel> giftEvents, String string, int num) {
+                GiftModel gift = giftEvents.get(0);
+
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+                MediaType mediaType = MediaType.parse("application/json");
+
+                JSONObject jsonBody = new JSONObject();
+                try {
+                    jsonBody.put("id", gift.getGiftId());
+                    jsonBody.put("wishlist_id", gift.getWishlistId());
+                    jsonBody.put("product_url", link);
+                    jsonBody.put("priority", String.valueOf(priority));
+                    jsonBody.put("booked", gift.getSave());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                RequestBody body = RequestBody.create(mediaType, jsonBody.toString());
+                Request request = new Request.Builder()
+                        .url("https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/" + id)
+                        .method("PUT", body)
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization", "Bearer " + apiKey)
+                        .build();
+
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                        callback.onFailure(e);
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.isSuccessful()) {
+
+                            List<GiftModel> listEvents = null;
+                            String listName = null;
+                            int id = 0;
+                            callback.onSuccess(listEvents, listName, id);
+
+                        } else {
+                            callback.onFailure(new IOException("List edited failed"));
+                        }
+                    }
+
+                });
+            }
+
+            @Override
+            public void onFailure(IOException e) {
+
+            }
+        });
+    }
+
+    public void getGiftById(String id, String apiKey, GiftCallback callback){
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        Request request = new Request.Builder()
+                .url("https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/" + id)
+                .method("GET", null)
+                .addHeader("Authorization", "Bearer " + apiKey)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+
+                        ArrayList<GiftModel> gifts = new ArrayList<>();
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+
+                            int id = jsonObject.getInt("id");
+                            int wishlistId = jsonObject.getInt("wishlist_id");
+                            String productUrl = jsonObject.getString("product_url");
+                            int priority = jsonObject.getInt("priority");
+                            int booked = jsonObject.getInt("booked");
+                            boolean state = false;
+                            if(booked == 1){
+                                state = true;
+                            }
+                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state));
+
+                        System.out.println("GIFTS: " + gifts);
+                        String listName = null;
+                        int idcall = 0;
+                        callback.onSuccess(gifts, listName, idcall);
+
+                    } catch (JSONException e) {
+                        //e.printStackTrace();
+                        //callback.onFailure(e);
+                    }
+                } else {
+                    callback.onFailure(new IOException("Login failed"));
+                }
+            }
+
+        });
     }
 
 

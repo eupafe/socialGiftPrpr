@@ -18,9 +18,11 @@ import java.io.IOException;
 
 public class Login extends Fragment {
 
+    // UI components
     private EditText email;
     private EditText password;
     private Button logIn;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,26 +37,21 @@ public class Login extends Fragment {
             @Override
             public void onClick(View v) {
 
+                // Get the entered email and password
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
+                // Put the email into shared preferences in order to get it from anywhere
                 SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("email", enteredEmail);
                 editor.apply();
 
-                /*
-                JsonObjectRequest request = postDataToAPI(enteredEmail, enteredPassword);
-
-                Volley.newRequestQueue(getContext()).add(request);
-                 */
-
+                // User is logged in
                 UserDAO userDAO = new UserDAO();
-                //String accessToken = userDAO.login(enteredEmail, enteredPassword);
-
                 userDAO.login(enteredEmail, enteredPassword, new UserDAO.UserCallback() {
                     @Override
-                    public void onSuccess(String accessToken) {
+                    public void onSuccess(String accessToken, String name) {
                         Intent intent = new Intent(getContext(), MainWindow.class);
                         intent.putExtra("access_token", accessToken);
                         startActivity(intent);

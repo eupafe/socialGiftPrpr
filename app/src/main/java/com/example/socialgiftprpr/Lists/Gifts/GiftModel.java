@@ -46,4 +46,14 @@ public class GiftModel implements Serializable{
         this.save = save;
     }
 
+    @Override
+    public String toString() {
+        return "GiftModel{" +
+                "giftId=" + giftId +
+                ", wishlistId=" + wishlistId +
+                ", productUrl='" + productUrl + '\'' +
+                ", priority=" + priority +
+                ", save=" + save +
+                '}';
+    }
 }

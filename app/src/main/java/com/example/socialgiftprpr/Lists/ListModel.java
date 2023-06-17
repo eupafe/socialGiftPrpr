@@ -1,5 +1,7 @@
 package com.example.socialgiftprpr.Lists;
 
+import androidx.annotation.NonNull;
+
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.List;
 public class ListModel {
 
     private int id;
+    private int userId;
+    private String creationDate;
     // Name of the list
     private String name;
     // Description of the list
@@ -16,10 +20,12 @@ public class ListModel {
     private String deadline;
     private ArrayList<GiftModel> gifts = new ArrayList<>();
 
-    public ListModel(int id, String name, String description, String deadline, ArrayList<GiftModel> gifts){
+    public ListModel(int id, int userId, String name, String description, String creationDate, String deadline, ArrayList<GiftModel> gifts){
             this.id = id;
+            this.userId = userId;
             this.name = name;
             this.description = description;
+            this.creationDate = creationDate;
             this.deadline = deadline;
             this.gifts = gifts;
     }
@@ -27,6 +33,14 @@ public class ListModel {
     public int getId(){
         return id;
     }
+    public int getUserId(){
+        return userId;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
     public String getName(){
             return name;
         }
@@ -52,4 +66,16 @@ public class ListModel {
         this.deadline = deadline;
     }
 
+    @Override
+    public String toString() {
+        return "ListModel{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", creationDate='" + creationDate + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", deadline='" + deadline + '\'' +
+                ", gifts=" + gifts +
+                '}';
+    }
 }

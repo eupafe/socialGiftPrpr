@@ -80,7 +80,7 @@ public class SignUp extends Fragment {
                 UserDAO userDAO = new UserDAO();
                 userDAO.signup(enteredName, enteredSurname, enteredEmail, enteredPassword, new UserDAO.UserCallback() {
                     @Override
-                    public void onSuccess(String successful) {
+                    public void onSuccess(String successful, String name) {
                         Intent intent = new Intent(getActivity(), MainWindow.class);
                         startActivity(intent);
                     }

@@ -78,6 +78,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
                                 //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, AddGiftActivity.class);
+                                intent.putExtra("edit_gift_activity", "EDIT GIFT");
+                                intent.putExtra("gift_id", String.valueOf(gift.getGiftId()));
                                 context.startActivity(intent);
 
                             } else if (item.getTitle().equals("Delete")) {

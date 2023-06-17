@@ -44,6 +44,7 @@ public class AddListActivity extends AppCompatActivity {
         deadline = (EditText) findViewById(R.id.list_deadline);
 
         String t = getIntent().getStringExtra("edit_list_activity");
+
         if (t != null) {
             title.setText(t);
         }
@@ -61,16 +62,20 @@ public class AddListActivity extends AppCompatActivity {
 
                 if(t != null){
 
-                    String value = getIntent().getStringExtra("edit_activity");
-                    // TODO: mètode PUT per editar una llista
-                    /*
-                    if(value != null){
+                    String value = getIntent().getStringExtra("edit_value");
 
-                        JsonObjectRequest request = putDataToAPI(value, enteredName, enteredDescription, enteredDeadline);
-                        Volley.newRequestQueue(getApplicationContext()).add(request);
-                    }
+                    ListDAO listDAO = new ListDAO();
+                    listDAO.editListToAPI(value, enteredName, enteredDescription, enteredDeadline, apiKey, new ListDAO.ListCallback() {
+                        @Override
+                        public void onSuccess(List<ListModel> listEvents) {
+                            //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
+                        }
 
-                     */
+                        @Override
+                        public void onFailure(Exception e) {
+
+                        }
+                    });
 
                 } else{
 

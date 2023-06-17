@@ -1,12 +1,23 @@
 package com.example.socialgiftprpr.Profile;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.socialgiftprpr.Lists.ListModel;
+import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.ListDAO;
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
+
+import java.io.IOException;
+import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -30,19 +41,42 @@ public class EditProfileActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                String apiKey = sharedPreferences.getString("apiKey", null);
+                String email1 = sharedPreferences.getString("email", null);
+
                 String enteredName = name.getText().toString();
                 String enteredSurname = surname.getText().toString();
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                /*
-                JsonObjectRequest request = putDataToAPI(enteredName, enteredSurname, enteredEmail, enteredPassword);
+                UserDAO userDAO = new UserDAO();
 
-                Volley.newRequestQueue(getApplicationContext()).add(request);
+                userDAO.editUserProfileToAPI(email1, enteredName, enteredSurname, enteredEmail, enteredPassword, apiKey,
+                        new UserDAO.UserCallback() {
+                            @Override
+                            public void onSuccess(String email, String name) {
 
-                 */
+                                SharedPreferences preferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("email", email);
+                                editor.apply();
+
+                                Intent intent = new Intent(getApplicationContext(), MainWindow.class);
+                                intent.putExtra("fragment", "profileFragment");
+                                startActivity(intent);
+                                //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+
+                            }
+                        });
+
             }
         });
+
 
     }
     /*
