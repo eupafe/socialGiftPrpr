@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
 import com.example.socialgiftprpr.Lists.ListFragment;
+import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.Share.FriendGiftFragment;
 import com.example.socialgiftprpr.Share.FriendListFragment;
 import com.example.socialgiftprpr.Share.FriendProfileFragment;
@@ -43,12 +44,12 @@ public class MainWindow extends AppCompatActivity{
             if (fragmentType.equals("giftsFragment")) {
 
                 String listName = extras.getString("listName");
-                ArrayList<GiftModel> giftModels = (ArrayList<GiftModel>) getIntent().getSerializableExtra("listGifts");
+                System.out.println("LIST NAME : " + listName);
+
                 int id = extras.getInt("listId");
+                System.out.println("LIST id : " + id);
 
-                System.out.println(giftModels);
-
-                GiftsFragment giftsFragment = GiftsFragment.newInstance(listName, giftModels, id);
+                GiftsFragment giftsFragment = GiftsFragment.newInstance(listName, id);
                 replaceFragment(giftsFragment);
 
 

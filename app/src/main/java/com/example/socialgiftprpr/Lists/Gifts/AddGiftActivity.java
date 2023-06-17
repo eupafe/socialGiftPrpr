@@ -27,16 +27,27 @@ public class AddGiftActivity extends AppCompatActivity {
     private Button saveButton;
     private EditText priority;
     private EditText link;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gift);
 
+        int id = 0;
+        String listName = null;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey("wishlistId")){
+            id = extras.getInt("wishlistId");
+            listName = extras.getString("wishlistName");
+        }
+
         priority = (EditText) findViewById(R.id.gift_priority);
         link = (EditText) findViewById(R.id.gift_link);
 
         saveButton = (Button) findViewById(R.id.save_button);
+        int finalId = id;
+        String finalListName = listName;
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -51,16 +62,13 @@ public class AddGiftActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                String id = getIntent().getStringExtra("wishlistId");
-                System.out.println("ID IS : " + id);
-
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
                 String apiKey = sharedPreferences.getString("apiKey", null);
 
                 GiftDAO giftDAO = new GiftDAO();
-                giftDAO.addGiftToAPI(apiKey, id, enteredLink, priorityValue, new GiftDAO.GiftCallback() {
+                giftDAO.addGiftToAPI(apiKey, finalId, enteredLink, priorityValue, new GiftDAO.GiftCallback() {
                     @Override
-                    public void onSuccess(List<GiftModel> giftEvents) {
+                    public void onSuccess(List<GiftModel> gifts, String list, int id) {
                         Toast.makeText(getApplicationContext(), "Gift successfully added!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -78,6 +86,8 @@ public class AddGiftActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), MainWindow.class);
                 intent.putExtra("fragment", "giftsFragment");
+                intent.putExtra("listId", finalId);
+                intent.putExtra("listName", finalListName);
                 startActivity(intent);
             }
         });

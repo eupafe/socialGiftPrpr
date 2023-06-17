@@ -1,7 +1,9 @@
 package com.example.socialgiftprpr.Lists.Gifts;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,11 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +28,13 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     public List<GiftModel> giftEvents;
 
     private boolean friend;
+    private String listName;
 
-    public GiftAdapter(List<GiftModel> giftEvents, boolean friend){
+    public GiftAdapter(List<GiftModel> giftEvents,  boolean friend, String listName){
         // this.activity = activity;
         this.giftEvents = giftEvents;
         this.friend = friend;
+        this.listName = listName;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -55,6 +63,10 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                    String apiKey = sharedPreferences.getString("apiKey", null);
+
                     PopupMenu menu = new PopupMenu(v.getContext(), v);
                     menu.getMenu().add("Edit");
                     menu.getMenu().add("Delete");
@@ -71,6 +83,25 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
                             } else if (item.getTitle().equals("Delete")) {
 
                                 //TODO DELETE THE LIST
+                                GiftDAO giftDAO = new GiftDAO();
+                                giftDAO.deleteGiftFromAPI(gift.getGiftId(), apiKey, new GiftDAO.GiftCallback() {
+                                    @Override
+                                    public void onSuccess(List<GiftModel> gifts, String list, int id) {
+
+                                        Context context = v.getContext();
+                                        Intent intent = new Intent(context, MainWindow.class);
+                                        intent.putExtra("fragment", "giftsFragment");
+                                        intent.putExtra("listId", gift.getWishlistId());
+                                        intent.putExtra("listName", listName);
+                                        context.startActivity(intent);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(IOException e) {
+                                        //Toast.makeText(v.getContext(), "ERROR: gift NOT deleted", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                             return true;
                         }
