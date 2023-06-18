@@ -34,7 +34,6 @@ public class GiftDAO {
 
     public void addGiftToAPI(String apiKey, int wishlistId, String productUrl, int priority, GiftDAO.GiftCallback callback){
 
-        System.out.println("WISHLIST ID: " + wishlistId);
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
 
@@ -46,8 +45,6 @@ public class GiftDAO {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        System.out.println(jsonBody);
 
         RequestBody body = RequestBody.create(mediaType, jsonBody.toString());
         Request request = new Request.Builder()

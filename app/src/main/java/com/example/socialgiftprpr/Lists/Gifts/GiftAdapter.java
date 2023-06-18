@@ -75,7 +75,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
                         public boolean onMenuItemClick(MenuItem item) {
 
                             if (item.getTitle().equals("Edit")) {
-                                //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
+
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, AddGiftActivity.class);
                                 intent.putExtra("edit_gift_activity", "EDIT GIFT");
@@ -84,7 +84,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
                             } else if (item.getTitle().equals("Delete")) {
 
-                                //TODO DELETE THE LIST
                                 GiftDAO giftDAO = new GiftDAO();
                                 giftDAO.deleteGiftFromAPI(gift.getGiftId(), apiKey, new GiftDAO.GiftCallback() {
                                     @Override
@@ -101,7 +100,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
                                     @Override
                                     public void onFailure(IOException e) {
-                                        //Toast.makeText(v.getContext(), "ERROR: gift NOT deleted", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
 
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
@@ -23,6 +25,8 @@ public class MainWindow extends AppCompatActivity{
 
     // Bottom navigation bar
     BottomNavigationView bottomNavigationView;
+
+    private int totalLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,9 @@ public class MainWindow extends AppCompatActivity{
 
 
             } else if(fragmentType.equals("profileFragment")){
-                replaceFragment(new ProfileFragment());
+
+                ProfileFragment profileFragment = new ProfileFragment();
+                replaceFragment(profileFragment);
 
             }
             else if(fragmentType.equals("friendProfileFragment")){
@@ -98,7 +104,8 @@ public class MainWindow extends AppCompatActivity{
             bottomNavigationView = findViewById(R.id.bottom_navigation);
         }
         else{
-            replaceFragment(new ListFragment());
+            ListFragment listFragment = new ListFragment();
+            replaceFragment(listFragment);
         }
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);

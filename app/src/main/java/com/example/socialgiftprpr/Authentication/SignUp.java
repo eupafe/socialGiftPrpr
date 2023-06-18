@@ -123,44 +123,4 @@ public class SignUp extends Fragment {
         imageView.setImageBitmap(bitmap);
 
     }
-
-    /*
-    public JsonObjectRequest postDataToAPI(String name, String surname, String email, String password) {
-
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("name", name);
-            jsonBody.put("last_name", surname);
-            jsonBody.put("email", email);
-            jsonBody.put("password", password);
-            jsonBody.put("image", "https://balandrau.salle.url.edu/i3/repositoryimages/photo/47601a8b-dc7f-41a2-a53b-19d2e8f54cd0.png");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        String responseBody = response.toString();
-                        System.out.println(responseBody);
-                        Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }
-        );
-
-        return request;
-    }
-
-     */
-
 }

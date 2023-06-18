@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +31,7 @@ import java.util.List;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment{
 
     private TextView title;
     // Button to create a task
@@ -43,6 +44,7 @@ public class ListFragment extends Fragment {
     private List<ListModel> listEvents;
     // Shared preferences
     private SharedPreferences sharedPreferences;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -118,9 +120,23 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onSuccess(List<ListModel> list) {
                         System.out.println("LIST: " + list);
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
+                                int counter = 0;
+                                for (int i = 0; i < list.size(); i++) {
+                                    System.out.println(counter);
+                                    counter = list.get(i).getGifts().size() + counter;
+                                }
+
+                                SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("totalLists", String.valueOf(list.size()));
+                                editor.putString("totalGifts", String.valueOf(counter));
+                                editor.apply();
+
                                 adapter = new ListAdapter(list, false);
                                 lists.setAdapter(adapter);
                             }
@@ -139,143 +155,7 @@ public class ListFragment extends Fragment {
             }
         });
 
-        //listEvents = listDAO.getAllListsFromAPI(userDAO.getUserIdByEmailFromAPI());
-        //getDataFromAPI();
-        //getAllListsFromAPI();
-
-        /*
-        System.out.println("LIST EVENTS: " + listEvents);
-        adapter = new ListAdapter(listEvents, false);
-
-        adapter.setTasks(listEvents);
-        lists.setAdapter(adapter);
-
-         */
-
-        //listEvents.add(new ListModel("HEY", "TODAY", "1/6", false));
-
         return view;
     }
-
-    /*
-    public void getAllListsFromAPI() {
-
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-        int id = sharedPreferences.getInt("id", 0);
-
-        String url ="https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/"+ id + "/wishlists";
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                System.out.println("RESPONSEE: " + response);
-                try{
-                    for(int i = 0; i < response.length(); i ++){
-
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        int idJSON = jsonObject.getInt("id");
-                        String nameJSON = jsonObject.getString("name");
-                        String descriptionJSON = jsonObject.getString("description");
-                        String emailJSON = jsonObject.getString("end_date");
-
-                        System.out.println(nameJSON + " " + descriptionJSON + " " + emailJSON);
-                        //name.setText(fullName);
-                        //email.setText(emailJSON);
-
-                        listEvents.add(new ListModel(idJSON, nameJSON, descriptionJSON, emailJSON, false));
-                        adapter = new ListAdapter(listEvents, false);
-
-                        adapter.setTasks(listEvents);
-                        lists.setAdapter(adapter);
-                    }
-
-                } catch(JSONException e){
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-                String apiKey = sharedPreferences.getString("apiKey", null);
-
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + apiKey);
-
-                return headers;
-            }
-        };
-
-        queue.add(request);
-    }
-
-    public void getDataFromAPI() {
-
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-        String mail = sharedPreferences.getString("email", null);
-
-        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=" + mail;
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                try{
-                    JSONObject jsonObject = response.getJSONObject(0);
-                    int id = jsonObject.getInt("id");
-
-                    System.out.println("ID " + id);
-
-                    SharedPreferences preferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("id", id);
-                    editor.apply();
-
-                } catch(JSONException e){
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-                String apiKey = sharedPreferences.getString("apiKey", null);
-
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + apiKey);
-
-                return headers;
-            }
-        };
-
-        queue.add(request);
-    }
-
-     */
 
 }

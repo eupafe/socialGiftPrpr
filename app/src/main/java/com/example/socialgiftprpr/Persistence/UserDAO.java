@@ -146,6 +146,8 @@ public class UserDAO {
                         String name = jsonObject.getString("name");
                         String surname = jsonObject.getString("last_name");
                         String fullName = name.concat(" ").concat(surname);
+                        String email = jsonObject.getString("email");
+                        String image = jsonObject.getString("image");
 
                         callback.onSuccess(id, fullName);
 
@@ -216,61 +218,4 @@ public class UserDAO {
         });
 
     }
-
-    /*
-    public String getUserIdByEmailFromAPI() {
-
-        String[] id = new String[1];
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-        String mail = sharedPreferences.getString("email", null);
-
-        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=" + mail;
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                try{
-                    JSONObject jsonObject = response.getJSONObject(0);
-                    id[0] = jsonObject.getString("id");
-
-                    System.out.println("ID " + id[0]);
-
-                } catch(JSONException e){
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(context, "Data posted successfully", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-                SharedPreferences sharedPreferences = context.getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-                String apiKey = sharedPreferences.getString("apiKey", null);
-
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + apiKey);
-
-                return headers;
-            }
-        };
-
-        queue.add(request);
-
-        return id[0];
-    }
-
-     */
-
 }

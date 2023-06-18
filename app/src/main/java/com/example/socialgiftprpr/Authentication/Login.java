@@ -45,6 +45,7 @@ public class Login extends Fragment {
                 SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("email", enteredEmail);
+                editor.putString("usersList", null);
                 editor.apply();
 
                 // User is logged in
@@ -70,50 +71,4 @@ public class Login extends Fragment {
         });
         return view;
     }
-
-    /*
-    public JsonObjectRequest postDataToAPI(String email, String password) {
-
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("email", email);
-            jsonBody.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/login";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-                    String accessToken = response.getString("accessToken");
-                    System.out.println("Access Token: " + accessToken);
-
-                    Intent intent = new Intent(getActivity(), MainWindow.class);
-                    intent.putExtra("access_token", accessToken);
-                    startActivity(intent);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Wrong credentials. Please, try again", Toast.LENGTH_SHORT).show();
-                        //error.printStackTrace();
-                    }
-                }
-        );
-
-        return request;
-    }
-
-     */
 }

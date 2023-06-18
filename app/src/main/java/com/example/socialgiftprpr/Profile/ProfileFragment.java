@@ -105,20 +105,24 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
         String emailUser = sharedPreferences.getString("email", null);
+        String listCounter = sharedPreferences.getString("totalLists", null);
+        String giftCounter = sharedPreferences.getString("totalGifts", null);
+
+        //int friendsCounter = sharedPreferences.getInt("totalFriends", 0);
 
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
+
         totalLists = view.findViewById(R.id.total_lists_counter);
+        totalLists.setText(listCounter);
+
         totalGifts = view.findViewById(R.id.total_gifts_counter);
-        totalFriends = view.findViewById(R.id.total_friends_counter);
+        totalGifts.setText(giftCounter);
+
+        //totalFriends = view.findViewById(R.id.total_friends_counter);
+        //totalGifts.setText("");
 
         email.setText(emailUser);
-        /*
-        totalLists.setText();
-        totalGifts.setText();
-        totalFriends.setText(0);
-
-         */
 
         UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
@@ -171,60 +175,5 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
-    /*
-    public void getDataFromAPI() {
-
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-        String mail = sharedPreferences.getString("email", null);
-
-        String url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=" + mail;
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                try{
-                    JSONObject jsonObject = response.getJSONObject(0);
-                    String nameJSON = jsonObject.getString("name");
-                    String lastNameJSON = jsonObject.getString("last_name");
-                    String emailJSON = jsonObject.getString("email");
-
-                    String fullName = nameJSON + " " + lastNameJSON;
-                    name.setText(fullName);
-                    email.setText(emailJSON);
-
-                } catch(JSONException e){
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(getContext(), "Data posted successfully", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MiArchivoPreferencias", Context.MODE_PRIVATE);
-                String apiKey = sharedPreferences.getString("apiKey", null);
-
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + apiKey);
-
-                return headers;
-            }
-        };
-
-        queue.add(request);
-    }
-
-     */
 
 }

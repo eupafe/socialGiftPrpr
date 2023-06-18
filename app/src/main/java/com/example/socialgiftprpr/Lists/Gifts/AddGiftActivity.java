@@ -84,7 +84,7 @@ public class AddGiftActivity extends AppCompatActivity {
                     giftDAO.editGiftToAPI(value, enteredPriority, enteredLink, apiKey, new GiftDAO.GiftCallback() {
                         @Override
                         public void onSuccess(List<GiftModel> listEvents, String string, int id) {
-                            //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override

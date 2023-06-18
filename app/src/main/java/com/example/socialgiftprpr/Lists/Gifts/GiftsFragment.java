@@ -157,21 +157,6 @@ public class GiftsFragment extends Fragment{
             }
         });
 
-        /*
-        if(giftModels != null) {
-            for (int i = 0; i < giftModels.size(); i++) {
-
-                giftEvents.add(new GiftModel(giftModels.get(i).getGiftId(), giftModels.get(i).getWishlistId(),
-                                            giftModels.get(i).getProductUrl(), giftModels.get(i).getPriority(),
-                                            giftModels.get(i).getSave()));
-            }
-        }
-
-        adapter = new GiftAdapter(giftModels, false);
-        gifts.setAdapter(adapter);
-
-         */
-
         return view;
 
     }

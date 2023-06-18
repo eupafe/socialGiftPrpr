@@ -110,7 +110,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                                 //TODO ARREGLAR EL DISSENY
 
                             } else if (item.getTitle().equals("Edit")) {
-                                //TODO SET EDITTEXTS TO THE TASK THAT WE ARE IN
+
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, AddListActivity.class);
                                 intent.putExtra("edit_list_activity", "EDIT LIST");
@@ -119,7 +119,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
                             } else if (item.getTitle().equals("Delete")) {
 
-                                //TODO DELETE THE LIST
                                 ListDAO listDAO = new ListDAO();
                                 listDAO.deleteListFromAPI(list.getId(), apiKey, new ListDAO.ListCallback() {
                                     @Override
