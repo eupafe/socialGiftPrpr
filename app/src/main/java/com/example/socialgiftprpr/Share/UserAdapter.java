@@ -34,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public void onBindViewHolder(UserAdapter.ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         UserModel user = userEvents.get(pos);
-        holder.name.setText(user.getName());
+        holder.name.setText(user.getName() + " " + user.getSurname());
         holder.seeProfile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 

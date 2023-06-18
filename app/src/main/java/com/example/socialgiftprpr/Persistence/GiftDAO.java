@@ -1,19 +1,12 @@
 package com.example.socialgiftprpr.Persistence;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.example.socialgiftprpr.Lists.Gifts.GiftAdapter;
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
-import com.example.socialgiftprpr.Lists.ListModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 

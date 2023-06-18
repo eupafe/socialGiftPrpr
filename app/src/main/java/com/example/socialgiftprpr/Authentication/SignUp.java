@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class SignUp extends Fragment {
@@ -32,6 +35,7 @@ public class SignUp extends Fragment {
     private EditText email;
     private EditText password;
     private Button signUp;
+    private String image;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,17 +74,10 @@ public class SignUp extends Fragment {
                 editor.putString("email", enteredEmail);
                 editor.apply();
 
-                /*
-                JsonObjectRequest request = postDataToAPI(enteredName, enteredSurname, enteredEmail, enteredPassword);
-
-                Volley.newRequestQueue(getContext()).add(request);
-
-                 */
-
                 UserDAO userDAO = new UserDAO();
-                userDAO.signup(enteredName, enteredSurname, enteredEmail, enteredPassword, new UserDAO.UserCallback() {
+                userDAO.signup(enteredName, enteredSurname, enteredEmail, enteredPassword, image, new UserDAO.UserCallback() {
                     @Override
-                    public void onSuccess(String successful, String name) {
+                    public void onSuccess(String successful, String name, String p1) {
                         Intent intent = new Intent(getActivity(), MainWindow.class);
                         startActivity(intent);
                     }
@@ -120,7 +117,15 @@ public class SignUp extends Fragment {
         }catch (IOException e){
             e.printStackTrace();
         }
+
         imageView.setImageBitmap(bitmap);
+
+        // Transform the image into a String
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
     }
 }

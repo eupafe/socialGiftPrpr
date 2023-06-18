@@ -2,20 +2,16 @@ package com.example.socialgiftprpr.Share;
 
 public class UserModel {
 
+    // User id
     private String id;
-    // Name of the user
+    // User name
     private String name;
-    // Surname of the user
+    // User surname
     private String surname;
+    // User email
     private String email;
+    // User image link
     private String image;
-
-    // Total number of lists
-    private int numLists;
-    // Total number of gifts
-    private int numGifts;
-    // Total number of friends
-    private int numFriends;
 
     public UserModel(String name){
         this.name = name;
@@ -27,15 +23,13 @@ public class UserModel {
         this.surname = surname;
         this.email = email;
         this.image = image;
-
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getId() {
         return id;
+    }
+    public String getName() {
+        return name;
     }
 
     public String getSurname() {

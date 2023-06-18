@@ -52,7 +52,7 @@ public class Login extends Fragment {
                 UserDAO userDAO = new UserDAO();
                 userDAO.login(enteredEmail, enteredPassword, new UserDAO.UserCallback() {
                     @Override
-                    public void onSuccess(String accessToken, String name) {
+                    public void onSuccess(String accessToken, String name, String p1) {
                         Intent intent = new Intent(getContext(), MainWindow.class);
                         intent.putExtra("access_token", accessToken);
                         startActivity(intent);

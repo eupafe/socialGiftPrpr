@@ -1,5 +1,7 @@
 package com.example.socialgiftprpr.Share;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,11 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.socialgiftprpr.Lists.Gifts.GiftAdapter;
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
+import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,14 +33,12 @@ import java.util.List;
  */
 public class FriendGiftFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private int mParam2;
+    private TextView listTitle;
 
     private Spinner spinner;
 
@@ -56,12 +60,12 @@ public class FriendGiftFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FriendGiftFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FriendGiftFragment newInstance(String param1, String param2) {
+
+    public static FriendGiftFragment newInstance(String param1, int param2) {
         FriendGiftFragment fragment = new FriendGiftFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,7 +75,7 @@ public class FriendGiftFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -80,6 +84,9 @@ public class FriendGiftFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_gift, container, false);
 
+        listTitle = view.findViewById(R.id.giftsListTitle);
+        listTitle.setText(mParam1);
+
         spinner = view.findViewById(R.id.sortSpinner);
         List<String> items = Arrays.asList("Price","Priority");
 
@@ -87,18 +94,34 @@ public class FriendGiftFragment extends Fragment {
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterSpinner);
 
-        /*
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        giftEvents = new ArrayList<>();
-        giftEvents.add(new GiftModel("Bear", "https", "https", false));
 
-        adapter = new GiftAdapter(giftEvents, true);
-        adapter.setTasks(giftEvents);
-        gifts.setAdapter(adapter);
+        GiftDAO giftDAO = new GiftDAO();
+        giftDAO.getAllGiftsFromAPI(mParam2, apiKey, new GiftDAO.GiftCallback() {
+            @Override
+            public void onSuccess(List<GiftModel> allGifts, String listName, int id) {
+                System.out.println("ALL GIFTS: " + allGifts);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter = new GiftAdapter(allGifts, true, listName);
+                        gifts.setAdapter(adapter);
+                    }
+                });
 
-         */
+            }
+
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 }

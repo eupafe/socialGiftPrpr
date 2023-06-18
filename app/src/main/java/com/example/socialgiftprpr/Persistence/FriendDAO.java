@@ -1,7 +1,5 @@
 package com.example.socialgiftprpr.Persistence;
 
-import android.hardware.usb.UsbRequest;
-
 import com.example.socialgiftprpr.Share.UserModel;
 
 import org.json.JSONArray;
@@ -101,7 +99,7 @@ public class FriendDAO {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
-                        // TODO: check all this. WRONG! Fer algo similar a get all gifts / lists
+                        // TODO: check all this. WRONG! Do smth similar to lists /gifts
                         String responseBody = response.body().string();
                         JSONArray jsonArray = new JSONArray(responseBody);
 
@@ -127,5 +125,37 @@ public class FriendDAO {
             }
         });
     }
+
+    public void reserveGift(int id, String apiKey, FriendCallback callback) {
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        Request request = new Request.Builder()
+                .url("https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/"+ id + "/book")
+                .method("POST", null)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + apiKey)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    List<UserModel> users = new ArrayList<>();
+                    callback.onSuccess(users);
+
+                } else{
+                    callback.onFailure(new IOException("Reservation failed"));
+                }
+            }
+        });
+    }
+
 
 }

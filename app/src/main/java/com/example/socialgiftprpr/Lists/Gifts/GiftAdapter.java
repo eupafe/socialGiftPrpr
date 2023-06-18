@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.FriendDAO;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.R;
+import com.example.socialgiftprpr.Share.UserModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import java.util.List;
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
     public List<GiftModel> giftEvents;
+    private CheckBox reservedCheckBox;
 
     private boolean friend;
     private String listName;
@@ -48,18 +52,17 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
         GiftModel gift = giftEvents.get(pos);
         //holder.description.setText(list.getDescription());
         holder.link.setText(gift.getProductUrl());
-        /*
-        holder.reservedCheckBox.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                Context context = v.getContext();
-                Intent intent = new Intent(context, AddGiftActivity.class);
-                context.startActivity(intent);
-            }
-        });
+        if(giftEvents.get(pos).getSave()){
+            holder.reservedCheckBox.setChecked(true);
+        } else{
+            holder.reservedCheckBox.setChecked(false);
+        }
 
-         */
         if (!friend) {
+
+            holder.reservedCheckBox.setEnabled(false);
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,6 +113,31 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
                 }
             });
+        } else{
+
+            holder.reservedCheckBox.setEnabled(true);
+            holder.reservedCheckBox.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // TODO: method that reserves a gift + method that sets the checkbox checked if the gift is reserved or not
+                    int id = gift.getGiftId();
+
+                    SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                    String apiKey = sharedPreferences.getString("apiKey", null);
+
+                    FriendDAO friendDAO = new FriendDAO();
+                    friendDAO.reserveGift(id, apiKey,new FriendDAO.FriendCallback() {
+                        @Override
+                        public void onSuccess(List<UserModel> users) {
+                        }
+
+                        @Override
+                        public void onFailure(IOException e) {
+
+                        }
+                    });
+                }
+            });
+
         }
     }
 
@@ -124,15 +152,16 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageButton reservedCheckBox;
+        public CheckBox reservedCheckBox;
         public TextView name;
         public TextView link;
 
         ViewHolder(View itemView) {
             super(itemView);
-            //name = itemView.findViewById(R.id.nameGiftText);
+
             link = itemView.findViewById(R.id.linkText);
-           // reservedCheckBox = itemView.findViewById(R.id.checkBox);
+            reservedCheckBox = itemView.findViewById(R.id.checkBox);
+
         }
     }
 

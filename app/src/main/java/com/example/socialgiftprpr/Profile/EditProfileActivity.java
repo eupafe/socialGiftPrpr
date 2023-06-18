@@ -10,14 +10,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainWindow;
-import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
-import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -55,7 +52,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 userDAO.editUserProfileToAPI(email1, enteredName, enteredSurname, enteredEmail, enteredPassword, apiKey,
                         new UserDAO.UserCallback() {
                             @Override
-                            public void onSuccess(String email, String name) {
+                            public void onSuccess(String email, String name, String p1) {
 
                                 SharedPreferences preferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
@@ -73,10 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
                             }
                         });
-
             }
         });
-
-
     }
 }

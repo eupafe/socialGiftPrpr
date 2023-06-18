@@ -1,22 +1,22 @@
 package com.example.socialgiftprpr.Lists;
 
-import androidx.annotation.NonNull;
-
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListModel {
 
+    // List id
     private int id;
+    // List's user id
     private int userId;
+    // Creation date
     private String creationDate;
-    // Name of the list
+    // List name
     private String name;
-    // Description of the list
+    // List description
     private String description;
-    // Deadline of the list
+    // List end date
     private String deadline;
     private ArrayList<GiftModel> gifts = new ArrayList<>();
 
@@ -29,6 +29,7 @@ public class ListModel {
             this.deadline = deadline;
             this.gifts = gifts;
     }
+
     // Getters
     public int getId(){
         return id;

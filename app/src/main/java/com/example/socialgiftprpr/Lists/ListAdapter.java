@@ -16,15 +16,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.socialgiftprpr.Lists.Gifts.AddGiftActivity;
-import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
-import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
 import com.example.socialgiftprpr.MainWindow;
-import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +147,11 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                     Context context = v.getContext();
                     Intent intent = new Intent(context, MainWindow.class);
                     intent.putExtra("fragment", "FriendGiftFragment");
+                    intent.putExtra("listName", list.getName());
+                    intent.putExtra("listGifts", list.getGifts());
+                    intent.putExtra("listId", list.getId());
+                    System.out.println("Id of a list: " + list.getId());
+                    System.out.println("all gifts of a list: " + list.getGifts());
                     context.startActivity(intent);
                 }
             });

@@ -3,6 +3,7 @@ package com.example.socialgiftprpr.Share;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,10 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.socialgiftprpr.Lists.AddListActivity;
 import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,16 +30,20 @@ import com.example.socialgiftprpr.R;
  */
 public class FriendProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private ImageButton viewList;
+    private ImageView image;
+    private TextView name;
+    private TextView email;
+    private TextView totalLists;
+    private TextView totalGifts;
+    private TextView totalFriends;
+
     public FriendProfileFragment() {
         // Required empty public constructor
     }
@@ -45,7 +56,7 @@ public class FriendProfileFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FriendProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static FriendProfileFragment newInstance(String param1, String param2) {
         FriendProfileFragment fragment = new FriendProfileFragment();
         Bundle args = new Bundle();
@@ -70,6 +81,49 @@ public class FriendProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_profile, container, false);
 
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+        //String emailUser = sharedPreferences.getString("email", null);
+        String listCounter = sharedPreferences.getString("totalFriendLists", null);
+        String giftCounter = sharedPreferences.getString("totalFriendGifts", null);
+        String friendEmail = sharedPreferences.getString("friendEmail", null);
+
+        name = view.findViewById(R.id.profile_name);
+        email = view.findViewById(R.id.profile_email);
+        image = view.findViewById(R.id.profile_image);
+        email.setText(friendEmail);
+
+        totalLists = view.findViewById(R.id.total_lists_counter);
+        totalLists.setText(listCounter);
+
+        totalGifts = view.findViewById(R.id.total_gifts_counter);
+        totalGifts.setText(giftCounter);
+
+        totalFriends = view.findViewById(R.id.total_friends_counter);
+        //totalGifts.setText("");
+
+        UserDAO userDAO = new UserDAO();
+        userDAO.getUserIdFromAPI(friendEmail, apiKey, new UserDAO.UserCallback() {
+            @Override
+            public void onSuccess(String id, String nameUser, String imageProfile) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        name.setText(nameUser);
+                        if (imageProfile != null && !imageProfile.isEmpty()) {
+                            Picasso.get().load(imageProfile).into(image);
+                        }
+                    }
+                });
+
+            }
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         viewList = (ImageButton) view.findViewById(R.id.viewListButton);
         viewList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -79,6 +133,7 @@ public class FriendProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
         return view;
     }
 }

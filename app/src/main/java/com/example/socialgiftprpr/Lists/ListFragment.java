@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,25 +32,22 @@ import java.util.List;
  */
 public class ListFragment extends Fragment{
 
+    // Title of the view
     private TextView title;
-    // Button to create a task
+    // Button to add a list
     private ImageButton addList;
     // Recycler view
     private RecyclerView lists;
     // Adapter
     private ListAdapter adapter;
-    // List of tasks
+    // List containing all the lists
     private List<ListModel> listEvents;
     // Shared preferences
     private SharedPreferences sharedPreferences;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -67,7 +63,7 @@ public class ListFragment extends Fragment{
      * @param param2 Parameter 2.
      * @return A new instance of fragment ListFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static ListFragment newInstance(String param1, String param2) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
@@ -112,7 +108,7 @@ public class ListFragment extends Fragment{
         UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(email, apiKey, new UserDAO.UserCallback() {
             @Override
-            public void onSuccess(String id, String name) {
+            public void onSuccess(String id, String name, String p1) {
 
                 System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();

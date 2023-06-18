@@ -3,14 +3,19 @@ package com.example.socialgiftprpr.Profile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +26,13 @@ import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import okhttp3.Call;
@@ -52,12 +59,9 @@ public class ProfileFragment extends Fragment {
     private TextView totalGifts;
     private TextView totalFriends;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -65,6 +69,7 @@ public class ProfileFragment extends Fragment {
 
     private TextView name;
     private TextView email;
+    private ImageView image;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -78,7 +83,7 @@ public class ProfileFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
@@ -107,11 +112,12 @@ public class ProfileFragment extends Fragment {
         String emailUser = sharedPreferences.getString("email", null);
         String listCounter = sharedPreferences.getString("totalLists", null);
         String giftCounter = sharedPreferences.getString("totalGifts", null);
-
         //int friendsCounter = sharedPreferences.getInt("totalFriends", 0);
 
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
+
+        image = view.findViewById(R.id.profile_image);
 
         totalLists = view.findViewById(R.id.total_lists_counter);
         totalLists.setText(listCounter);
@@ -127,11 +133,16 @@ public class ProfileFragment extends Fragment {
         UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
             @Override
-            public void onSuccess(String id, String nameUser) {
+            public void onSuccess(String id, String nameUser, String imageProfile) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         name.setText(nameUser);
+
+                        if (imageProfile != null && !imageProfile.isEmpty()) {
+                            Picasso.get().load(imageProfile).into(image);
+                        }
+
                     }
                 });
 
