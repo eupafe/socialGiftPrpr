@@ -1,6 +1,7 @@
 package com.example.socialgiftprpr.Persistence;
 
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
+import com.example.socialgiftprpr.Lists.Gifts.ProductModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -19,6 +21,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class GiftDAO {
+
+    private ProductModel product;
 
     public interface GiftCallback {
         void onSuccess(List<GiftModel> giftEvents, String listName, int id);
@@ -104,9 +108,49 @@ public class GiftDAO {
                             if(booked == 1){
                                 state = true;
                             }
-                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state));
+
+                            boolean finalState = state;
+                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, finalState, product));
+
+                            ProductDAO productDAO = new ProductDAO();
+
+                            int finalJ = j;
+                            productDAO.getProductData(productUrl, apiKey, new ProductDAO.ProductCallback() {
+                                @Override
+                                public void onSuccess(ProductModel productModel) {
+                                    //System.out.println("PRODUCT MODEL: " + productModel);
+                                   /* GiftModel gift = gifts.get(finalJ);
+                                    gift.setProductInfo(productModel);
+                                    gifts.set(finalJ, gift);
+
+                                    */
+                                    GiftModel gift = gifts.get(finalJ);
+                                    gift.setProductInfo(productModel);
+                                    gifts.set(finalJ, gift);
+
+                                    // Verificar si todos los regalos han sido actualizados con el ProductModel
+                                    if (isAllGiftsUpdated(gifts, jsonArray1.length())) {
+                                        // Llamar al método onSuccess del callback con los regalos completos
+                                        callback.onSuccess(gifts, listName, listId);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(IOException e) {
+                                    // Verificar si todos los regalos han sido actualizados con el ProductModel
+                                    if (isAllGiftsUpdated(gifts, jsonArray1.length())) {
+                                        // Llamar al método onSuccess del callback con los regalos completos
+                                        callback.onSuccess(gifts, listName, listId);
+                                    }
+                                }
+                            });
+
+                            //gifts.add(new GiftModel(id, wishlistId, productUrl, priority, finalState, product));
+                            System.out.println("ENTRA FOR");
                         }
-                        callback.onSuccess(gifts, listName, listId);
+
+                       // callback.onSuccess(gifts, listName, listId);
 
                     } catch (JSONException e) {
                         //e.printStackTrace();
@@ -118,6 +162,15 @@ public class GiftDAO {
             }
 
         });
+    }
+
+    private boolean isAllGiftsUpdated(List<GiftModel> gifts, int expectedSize) {
+        for (GiftModel gift : gifts) {
+            if (gift.getProductInfo() == null) {
+                return false;
+            }
+        }
+        return gifts.size() == expectedSize;
     }
 
     public void deleteGiftFromAPI(int idGift, String apiKey, GiftDAO.GiftCallback callback){
@@ -247,7 +300,7 @@ public class GiftDAO {
                             if(booked == 1){
                                 state = true;
                             }
-                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state));
+                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state, null));
 
                         System.out.println("GIFTS: " + gifts);
                         String listName = null;

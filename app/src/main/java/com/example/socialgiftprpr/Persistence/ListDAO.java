@@ -1,6 +1,8 @@
 package com.example.socialgiftprpr.Persistence;
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
+import com.example.socialgiftprpr.Lists.Gifts.ProductModel;
 import com.example.socialgiftprpr.Lists.ListModel;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +80,11 @@ public class ListDAO {
                                 if(booked == 1){
                                     state = true;
                                 }
-                                gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state));
+
+                                boolean finalState = state;
+                                ProductModel product = null;
+                                gifts.add(new GiftModel(id, wishlistId, productUrl, priority, finalState, product));
+
                             }
 
                             listEvents.add(new ListModel(idJSON,idUserJSON, nameJSON, descriptionJSON,creationDateJSON, deadlineJSON, gifts));
@@ -288,7 +294,7 @@ public class ListDAO {
                             if(booked == 1){
                                 state = true;
                             }
-                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state));
+                            gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state, null));
                         }
 
                         listModel.add(new ListModel(listId, userId, listName, description, creationDate, endDate, gifts));

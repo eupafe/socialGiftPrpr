@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.FriendDAO;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
+import com.example.socialgiftprpr.Persistence.ProductDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.Share.UserModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,12 +36,14 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
     private boolean friend;
     private String listName;
+    private String apiKey;
 
-    public GiftAdapter(List<GiftModel> giftEvents,  boolean friend, String listName){
+    public GiftAdapter(List<GiftModel> giftEvents,  boolean friend, String listName, String apiKey){
         // this.activity = activity;
         this.giftEvents = giftEvents;
         this.friend = friend;
         this.listName = listName;
+        this.apiKey = apiKey;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -47,11 +52,17 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(GiftAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         GiftModel gift = giftEvents.get(pos);
-        //holder.description.setText(list.getDescription());
+        System.out.println("GIFT ADAPTER: " + gift);
+        holder.name.setText(gift.getProductInfo().getName());
         holder.link.setText(gift.getProductUrl());
+
+        String photo = gift.getProductInfo().getPhoto();
+        if (photo != null && !photo.isEmpty()) {
+            Picasso.get().load(photo).into(holder.image);
+        }
 
         if(giftEvents.get(pos).getSave()){
             holder.reservedCheckBox.setChecked(true);
@@ -179,12 +190,14 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
         public CheckBox reservedCheckBox;
         public TextView name;
         public TextView link;
+        public ImageView image;
 
         ViewHolder(View itemView) {
             super(itemView);
-
+            name = itemView.findViewById(R.id.NameText);
             link = itemView.findViewById(R.id.linkText);
             reservedCheckBox = itemView.findViewById(R.id.checkBox);
+            image = itemView.findViewById(R.id.giftImage);
 
         }
     }

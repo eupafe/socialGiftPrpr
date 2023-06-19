@@ -9,17 +9,33 @@
 
     <RelativeLayout
         android:layout_width="350dp"
-        android:layout_height="87dp"
+        android:layout_height="120dp"
         tools:layout_editor_absoluteX="2dp"
         tools:layout_editor_absoluteY="1dp">
+
+        <ImageView
+            android:id="@+id/giftImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            app:srcCompat="@drawable/user" />
+
+        <TextView
+            android:id="@+id/NameText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="90dp"
+            android:text="@string/name_gift" />
 
         <TextView
             android:id="@+id/linkText"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="80dp"
-            android:text="@string/name_gift" />
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="90dp"
+            android:text="@string/link_gift" />
 
         <CheckBox
             android:id="@+id/checkBox"

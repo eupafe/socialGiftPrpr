@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -25,12 +26,15 @@ import com.example.socialgiftprpr.Lists.ListAdapter;
 import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.Persistence.ListDAO;
+import com.example.socialgiftprpr.Persistence.ProductDAO;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -129,13 +133,37 @@ public class GiftsFragment extends Fragment{
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterSpinner);
 
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-        String apiKey = sharedPreferences.getString("apiKey", null);
-        String email = sharedPreferences.getString("email", null);
-
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                if (selectedItem.equals("Price")) {
+                    sortBy("Price");
+
+                } else if (selectedItem.equals("Priority")) {
+                    sortBy("Priority");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No se seleccionó ningún elemento
+            }
+        });
+
+        return view;
+
+    }
+    private void sortBy(String sortBy){
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+        String email = sharedPreferences.getString("email", null);
 
         GiftDAO giftDAO = new GiftDAO();
         giftDAO.getAllGiftsFromAPI(id, apiKey, new GiftDAO.GiftCallback() {
@@ -145,7 +173,29 @@ public class GiftsFragment extends Fragment{
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter = new GiftAdapter(allGifts, false, listName);
+                        System.out.println("SORT BY: " + sortBy);
+
+                        if(sortBy.equals("Priority")) {
+                            Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                @Override
+                                public int compare(GiftModel gift1, GiftModel gift2) {
+
+                                    return Integer.compare(gift1.getPriority(), gift2.getPriority());
+                                }
+                            });
+                        } else {
+
+                            Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                @Override
+                                public int compare(GiftModel gift1, GiftModel gift2) {
+
+                                    return Double.compare(gift1.getProductInfo().getPrice(), gift2.getProductInfo().getPrice());
+                                }
+                            });
+
+                        }
+
+                        adapter = new GiftAdapter(allGifts, false, listName, apiKey);
                         gifts.setAdapter(adapter);
                     }
                 });
@@ -157,8 +207,5 @@ public class GiftsFragment extends Fragment{
                 Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
-
     }
 }

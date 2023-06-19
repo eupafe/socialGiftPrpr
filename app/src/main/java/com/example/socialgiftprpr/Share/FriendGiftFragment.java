@@ -109,7 +109,7 @@ public class FriendGiftFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter = new GiftAdapter(allGifts, true, listName);
+                        adapter = new GiftAdapter(allGifts, true, listName, apiKey);
                         gifts.setAdapter(adapter);
                     }
                 });

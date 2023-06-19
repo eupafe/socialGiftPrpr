@@ -2,6 +2,8 @@ package com.example.socialgiftprpr.Lists.Gifts;
 
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class GiftModel implements Serializable{
@@ -14,12 +16,15 @@ public class GiftModel implements Serializable{
     // If the gift is saved or not
     private boolean save;
 
-    public GiftModel(int giftId, int wishlistId, String productUrl, int priority, Boolean save){
+    private ProductModel productInfo;
+
+    public GiftModel(int giftId, int wishlistId, String productUrl, int priority, Boolean save, ProductModel productInfo){
         this.giftId = giftId;
         this.wishlistId = wishlistId;
         this.productUrl = productUrl;
         this.priority = priority;
         this.save = save;
+        this.productInfo = productInfo;
     }
     // Getters
     public int getGiftId(){
@@ -38,6 +43,10 @@ public class GiftModel implements Serializable{
         return save;
     }
 
+    public ProductModel getProductInfo() {
+        return productInfo;
+    }
+
     // Setters
     public void setProductUrl(String productUrl) {
         this.productUrl = productUrl;
@@ -54,6 +63,11 @@ public class GiftModel implements Serializable{
                 ", productUrl='" + productUrl + '\'' +
                 ", priority=" + priority +
                 ", save=" + save +
+                ", productInfo=" + productInfo +
                 '}';
+    }
+
+    public void setProductInfo(ProductModel productModel) {
+        this.productInfo = productModel;
     }
 }
