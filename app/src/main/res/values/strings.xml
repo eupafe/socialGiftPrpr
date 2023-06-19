@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">socialGiftPrpr</string>
     <string name="list_view_title">MY LISTS</string>
+    <string name="list_friend_title">LISTS</string>
     <string name="name_list">Name</string>
     <string name="description_list">Description</string>
     <string name="deadline_list">Deadline</string>
@@ -20,6 +21,7 @@
     <string name="name_gift">Name</string>
     <string name="link_gift">Link</string>
     <string name="gift_view_title">MY GIFTS</string>
+    <string name="gift_friend_title">GIFTS</string>
     <string name="friend_name">Name</string>
     <string name="spinner_title">Sort by</string>
     <!-- TODO: Remove or change this placeholder text -->
