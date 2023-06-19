@@ -18,6 +18,7 @@ import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class AddGiftActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gift);
 
-        int id = 3;
+        int id = 0;
         String listName = null;
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey("wishlistId")){
@@ -84,6 +85,16 @@ public class AddGiftActivity extends AppCompatActivity {
                     giftDAO.editGiftToAPI(value, enteredPriority, enteredLink, apiKey, new GiftDAO.GiftCallback() {
                         @Override
                         public void onSuccess(List<GiftModel> listEvents, String string, int id) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(v.getContext(), MainWindow.class);
+                                    intent.putExtra("fragment", "giftsFragment");
+                                    intent.putExtra("listId", finalId);
+                                    intent.putExtra("listName", finalListName);
+                                    startActivity(intent);
+                                }
+                            });
 
                         }
 
@@ -99,6 +110,7 @@ public class AddGiftActivity extends AppCompatActivity {
                     giftDAO.addGiftToAPI(apiKey, finalId, enteredLink, priorityValue, new GiftDAO.GiftCallback() {
                         @Override
                         public void onSuccess(List<GiftModel> gifts, String list, int id) {
+
                             Toast.makeText(getApplicationContext(), "Gift successfully added!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -120,6 +132,7 @@ public class AddGiftActivity extends AppCompatActivity {
                 intent.putExtra("listId", finalId);
                 intent.putExtra("listName", finalListName);
                 startActivity(intent);
+
             }
         });
 

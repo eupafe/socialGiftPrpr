@@ -83,6 +83,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
                                 Intent intent = new Intent(context, AddGiftActivity.class);
                                 intent.putExtra("edit_gift_activity", "EDIT GIFT");
                                 intent.putExtra("gift_id", String.valueOf(gift.getGiftId()));
+                                intent.putExtra("wishlistId", gift.getWishlistId());
+                                intent.putExtra("wishlistName", listName);
                                 context.startActivity(intent);
 
                             } else if (item.getTitle().equals("Delete")) {
@@ -125,16 +127,38 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
                     String apiKey = sharedPreferences.getString("apiKey", null);
 
                     FriendDAO friendDAO = new FriendDAO();
-                    friendDAO.reserveGift(id, apiKey,new FriendDAO.FriendCallback() {
-                        @Override
-                        public void onSuccess(List<UserModel> users) {
-                        }
 
-                        @Override
-                        public void onFailure(IOException e) {
+                    CheckBox checkBox = (CheckBox) v;
+                    boolean isChecked = checkBox.isChecked();
 
-                        }
-                    });
+                    if(isChecked){
+
+                        friendDAO.reserveGift(id, apiKey,new FriendDAO.FriendCallback() {
+                            @Override
+                            public void onSuccess(List<UserModel> users) {
+
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+
+                            }
+                        });
+                    } else{
+
+                        friendDAO.deleteReservationGift(id, apiKey,new FriendDAO.FriendCallback() {
+                            @Override
+                            public void onSuccess(List<UserModel> users) {
+
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+
+                            }
+                        });
+
+                    }
                 }
             });
 

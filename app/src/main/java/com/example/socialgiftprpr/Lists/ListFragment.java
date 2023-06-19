@@ -112,7 +112,7 @@ public class ListFragment extends Fragment{
 
                 System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();
-                listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback(){
+                listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
                     @Override
                     public void onSuccess(List<ListModel> list) {
                         System.out.println("LIST: " + list);
@@ -121,23 +121,19 @@ public class ListFragment extends Fragment{
                             @Override
                             public void run() {
 
+                                listEvents = list;
                                 int counter = 0;
                                 for (int i = 0; i < list.size(); i++) {
                                     System.out.println(counter);
                                     counter = list.get(i).getGifts().size() + counter;
                                 }
 
-                                SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("totalLists", String.valueOf(list.size()));
-                                editor.putString("totalGifts", String.valueOf(counter));
-                                editor.apply();
-
                                 adapter = new ListAdapter(list, false);
                                 lists.setAdapter(adapter);
                             }
                         });
                     }
+
                     @Override
                     public void onFailure(Exception e) {
                         Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
@@ -145,6 +141,7 @@ public class ListFragment extends Fragment{
                 });
 
             }
+
             @Override
             public void onFailure(IOException e) {
                 Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();

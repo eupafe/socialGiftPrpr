@@ -24,7 +24,16 @@ import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SignUp extends Fragment {
 
@@ -120,12 +129,26 @@ public class SignUp extends Fragment {
 
         imageView.setImageBitmap(bitmap);
 
-        // Transform the image into a String
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-
-        image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
+        // Guardar el Bitmap en un archivo temporal
+        File imageFile = saveBitmapToFile(bitmap);
+        // Subir la imagen a la API
+        UserDAO userDAO = new UserDAO();
+        userDAO.uploadImageToAPI(imageFile);
     }
+
+    private File saveBitmapToFile(Bitmap bitmap) {
+        // Crear un archivo para guardar el bitmap
+        File file = new File(requireContext().getCacheDir(), "image.jpg");
+        try {
+            // Comprimir el bitmap y guardarlo en el archivo
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
 }

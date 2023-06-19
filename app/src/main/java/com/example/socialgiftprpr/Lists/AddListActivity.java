@@ -68,6 +68,13 @@ public class AddListActivity extends AppCompatActivity {
                     listDAO.editListToAPI(value, enteredName, enteredDescription, enteredDeadline, apiKey, new ListDAO.ListCallback() {
                         @Override
                         public void onSuccess(List<ListModel> listEvents) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(v.getContext(), MainWindow.class);
+                                    startActivity(intent);
+                                }
+                            });
                             //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -83,7 +90,7 @@ public class AddListActivity extends AppCompatActivity {
                     listDAO.addListToAPI(apiKey, enteredName, enteredDescription, enteredDeadline, new ListDAO.ListCallback() {
                         @Override
                         public void onSuccess(List<ListModel> listEvents) {
-                            Toast.makeText(getApplicationContext(), "List successfully added!", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override

@@ -16,12 +16,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
+import com.example.socialgiftprpr.Lists.ListAdapter;
+import com.example.socialgiftprpr.Lists.ListFragment;
+import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainWindow;
+import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,9 +89,7 @@ public class FriendProfileFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
-        //String emailUser = sharedPreferences.getString("email", null);
-        String listCounter = sharedPreferences.getString("totalFriendLists", null);
-        String giftCounter = sharedPreferences.getString("totalFriendGifts", null);
+        String emailUser = sharedPreferences.getString("email", null);
         String friendEmail = sharedPreferences.getString("friendEmail", null);
 
         name = view.findViewById(R.id.profile_name);
@@ -93,16 +97,54 @@ public class FriendProfileFragment extends Fragment {
         image = view.findViewById(R.id.profile_image);
         email.setText(friendEmail);
 
-        totalLists = view.findViewById(R.id.total_lists_counter);
-        totalLists.setText(listCounter);
+        UserDAO userDAO = new UserDAO();
+        userDAO.getUserIdFromAPI(friendEmail, apiKey, new UserDAO.UserCallback() {
+            @Override
+            public void onSuccess(String id, String name, String p1) {
 
-        totalGifts = view.findViewById(R.id.total_gifts_counter);
-        totalGifts.setText(giftCounter);
+                System.out.println("ID: " + id);
+                ListDAO listDAO = new ListDAO();
+                listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
+                    @Override
+                    public void onSuccess(List<ListModel> list) {
+                        System.out.println("LIST: " + list);
 
-        totalFriends = view.findViewById(R.id.total_friends_counter);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                totalLists = view.findViewById(R.id.total_lists_counter);
+                                totalLists.setText(String.valueOf(list.size()));
+
+                                int counter = 0;
+                                for (int i = 0; i < list.size(); i++) {
+                                    System.out.println(counter);
+                                    counter = list.get(i).getGifts().size() + counter;
+                                }
+
+                                totalGifts = view.findViewById(R.id.total_gifts_counter);
+                                totalGifts.setText(String.valueOf(counter));
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //totalFriends = view.findViewById(R.id.total_friends_counter);
         //totalGifts.setText("");
 
-        UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(friendEmail, apiKey, new UserDAO.UserCallback() {
             @Override
             public void onSuccess(String id, String nameUser, String imageProfile) {

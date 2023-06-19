@@ -110,27 +110,62 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
         String emailUser = sharedPreferences.getString("email", null);
-        String listCounter = sharedPreferences.getString("totalLists", null);
-        String giftCounter = sharedPreferences.getString("totalGifts", null);
-        //int friendsCounter = sharedPreferences.getInt("totalFriends", 0);
 
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
 
         image = view.findViewById(R.id.profile_image);
 
-        totalLists = view.findViewById(R.id.total_lists_counter);
-        totalLists.setText(listCounter);
+        UserDAO userDAO = new UserDAO();
+        userDAO.getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
+            @Override
+            public void onSuccess(String id, String name, String p1) {
 
-        totalGifts = view.findViewById(R.id.total_gifts_counter);
-        totalGifts.setText(giftCounter);
+                System.out.println("ID: " + id);
+                ListDAO listDAO = new ListDAO();
+                listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
+                    @Override
+                    public void onSuccess(List<ListModel> list) {
+                        System.out.println("LIST: " + list);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                totalLists = view.findViewById(R.id.total_lists_counter);
+                                totalLists.setText(String.valueOf(list.size()));
+
+                                int counter = 0;
+                                for (int i = 0; i < list.size(); i++) {
+                                    System.out.println(counter);
+                                    counter = list.get(i).getGifts().size() + counter;
+                                }
+
+                                totalGifts = view.findViewById(R.id.total_gifts_counter);
+                                totalGifts.setText(String.valueOf(counter));
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(IOException e) {
+                Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //totalFriends = view.findViewById(R.id.total_friends_counter);
         //totalGifts.setText("");
 
         email.setText(emailUser);
 
-        UserDAO userDAO = new UserDAO();
         userDAO.getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
             @Override
             public void onSuccess(String id, String nameUser, String imageProfile) {
