@@ -64,7 +64,7 @@ public class UserDAO {
 
                     } catch (JSONException e) {
                         //e.printStackTrace();
-                        //callback.onFailure(e);
+                        //callback.onFailure(new IOException("Server Error"));
                     }
                 } else {
                     callback.onFailure(new IOException("Login failed"));
@@ -215,48 +215,6 @@ public class UserDAO {
             }
         });
 
-    }
-
-    public void uploadImageToAPI(File imageFile) {
-        OkHttpClient client = new OkHttpClient();
-
-        // Construir el cuerpo de la solicitud
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("image", imageFile.getName(),
-                        RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
-                .build();
-
-        // Construir la solicitud POST
-        Request request = new Request.Builder()
-                .url("https://balandrau.salle.url.edu/i3/repositoryimages")
-                .method("POST", requestBody)
-                .build();
-
-        // Enviar la solicitud
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                // Procesar la respuesta de la API
-                if (response.isSuccessful()) {
-                    // La imagen se ha subido correctamente
-                    // Puedes obtener información adicional de la respuesta si es necesario
-                    String responseBody = response.body().string();
-                    System.out.println("IMAGE URL: " + responseBody);
-                    // Manejar la respuesta de la API según sea necesario
-                } else {
-                    // Error al subir la imagen
-                    // Puedes manejar el error aquí o notificar al usuario
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("ON FAILURE");
-                // Error de conexión o en la comunicación con la API
-                // Puedes manejar el error aquí o notificar al usuario
-            }
-        });
     }
 
 }

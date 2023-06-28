@@ -32,19 +32,15 @@ import java.util.List;
  */
 public class ShareFragment extends Fragment {
 
+    // Variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
-    // Recycler view
+    // UI components
     private RecyclerView users;
-    // Adapter
     private UserAdapter adapter;
-    // List of tasks
-    private List<UserModel> userEvents;
-
     private SearchView searchView;
 
     public ShareFragment() {
@@ -93,7 +89,6 @@ public class ShareFragment extends Fragment {
         // Adapter initialization
         users = (RecyclerView) view.findViewById(R.id.users);
         users.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        userEvents = new ArrayList<>();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -101,11 +96,6 @@ public class ShareFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
 
                 String searchInput = searchView.getQuery().toString();
-
-                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("friendEmail", searchInput);
-                editor.apply();
 
                 if(searchInput != null || !searchInput.equals("")){
 
@@ -118,26 +108,25 @@ public class ShareFragment extends Fragment {
                                 @Override
                                 public void run() {
 
-                                    // TODO: el onSucess li hauria de retornar el user sencer (fem que retorni una llista de 1 només). Llavors li fem el mètode PUT
-                                    // TODO: i marquem com que es un amic. Després cridem a una funció que sigui GET ALL FRIENDS
-                                    // TODO: que el onSucess retorni també una llista de tots els friends. Fem update a shared preferences de la size
-                                    // TODO: i que la passi a l'adapter. TENIR EN COMPTE QUE HEM D'ESBORRAR TOT EL QUE POSEM A SHARED PREFERENCES CADA
-                                    // TODO: COP QUE FEM EDIT (O ALTRES CASOS, MIRAR-HO BÉ)
+                                    if(usersList.size() == 0){
+                                        Toast.makeText(getContext(), "THERE ARE NO USERS WITH THIS NAME", Toast.LENGTH_SHORT).show();
 
-                                    Gson gson = new Gson();
-                                    String userListJson = gson.toJson(usersList);
+                                    } else{
+                                        Gson gson = new Gson();
+                                        String userListJson = gson.toJson(usersList);
 
-                                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                                    Type userListType = new TypeToken<List<UserModel>>() {}.getType();
-                                    List<UserModel> userList = gson.fromJson(userListJson, userListType);
+                                        Type userListType = new TypeToken<List<UserModel>>() {}.getType();
+                                        List<UserModel> userList = gson.fromJson(userListJson, userListType);
 
-                                    editor.putString("usersList", userListJson);
-                                    editor.apply();
+                                        editor.putString("usersList", userListJson);
+                                        editor.apply();
 
-                                    adapter = new UserAdapter(userList);
-                                    users.setAdapter(adapter);
+                                        adapter = new UserAdapter(userList);
+                                        users.setAdapter(adapter);
+                                    }
 
                                 }
                             });

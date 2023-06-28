@@ -21,17 +21,12 @@ import java.util.List;
 
 public class AddListActivity extends AppCompatActivity {
 
+    // Variables
     private TextView title;
-    // Box to input the name of the list
     private EditText name;
-    // Box to input the description of the list
     private EditText description;
-    // Box to input the deadline of the list
     private EditText deadline;
-    // Button to save the list
     private Button saveButton;
-
-    private JSONObject gifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +70,6 @@ public class AddListActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             });
-                            //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

@@ -2,6 +2,7 @@ package com.example.socialgiftprpr.Share;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,10 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
+    // Variables
     public List<UserModel> userEvents;
 
     public UserAdapter(List<UserModel> userEvents){
-        // this.activity = activity;
         this.userEvents = userEvents;
     }
 
@@ -34,13 +35,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public void onBindViewHolder(UserAdapter.ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         UserModel user = userEvents.get(pos);
+
         holder.name.setText(user.getName() + " " + user.getSurname());
         holder.seeProfile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("friendEmail", user.getEmail());
+                editor.apply();
+
                 Context context = v.getContext();
                 Intent intent = new Intent(context, MainWindow.class);
                 intent.putExtra("fragment", "friendProfileFragment");
+
                 context.startActivity(intent);
             }
         });

@@ -32,19 +32,10 @@ import java.util.List;
  */
 public class ListFragment extends Fragment{
 
-    // Title of the view
-    private TextView title;
-    // Button to add a list
+    // Variables
     private ImageButton addList;
-    // Recycler view
     private RecyclerView lists;
-    // Adapter
     private ListAdapter adapter;
-    // List containing all the lists
-    private List<ListModel> listEvents;
-    // Shared preferences
-    private SharedPreferences sharedPreferences;
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -87,7 +78,7 @@ public class ListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        // Inflate the layout for this fragment
+
         addList = (ImageButton) view.findViewById(R.id.addButton);
         addList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -99,7 +90,6 @@ public class ListFragment extends Fragment{
         // Adapter initialization
         lists = (RecyclerView) view.findViewById(R.id.lists);
         lists.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        listEvents = new ArrayList<>();
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
@@ -110,26 +100,29 @@ public class ListFragment extends Fragment{
             @Override
             public void onSuccess(String id, String name, String p1) {
 
-                System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();
                 listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
                     @Override
                     public void onSuccess(List<ListModel> list) {
-                        System.out.println("LIST: " + list);
+
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                listEvents = list;
-                                int counter = 0;
-                                for (int i = 0; i < list.size(); i++) {
-                                    System.out.println(counter);
-                                    counter = list.get(i).getGifts().size() + counter;
+                                if(list.size() == 0){
+                                    Toast.makeText(getContext(), "THERE ARE NO LISTS AVAILABLE", Toast.LENGTH_SHORT).show();
+                                } else{
+
+                                    int counter = 0;
+                                    for (int i = 0; i < list.size(); i++) {
+                                        counter = list.get(i).getGifts().size() + counter;
+                                    }
+
+                                    adapter = new ListAdapter(list, false);
+                                    lists.setAdapter(adapter);
                                 }
 
-                                adapter = new ListAdapter(list, false);
-                                lists.setAdapter(adapter);
                             }
                         });
                     }

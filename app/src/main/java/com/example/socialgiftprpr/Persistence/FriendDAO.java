@@ -1,6 +1,5 @@
 package com.example.socialgiftprpr.Persistence;
 
-import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.Share.UserModel;
 
 import org.json.JSONArray;
@@ -20,7 +19,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class FriendDAO {
-
 
     public FriendDAO(){
     }
@@ -80,11 +78,6 @@ public class FriendDAO {
                 }
             }
         });
-    }
-
-    public void markAsFriend(String id, String apiKey, FriendCallback callback){
-
-
     }
 
     public void getAllFriends(String apiKey, FriendCallback callback) {

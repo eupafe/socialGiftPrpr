@@ -22,7 +22,6 @@ import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,21 +32,21 @@ import java.util.List;
  */
 public class FriendGiftFragment extends Fragment {
 
+    // Variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private int mParam2;
-    private TextView listTitle;
 
+    // UI components
+    private TextView listTitle;
     private Spinner spinner;
 
     // Recycler view
     private RecyclerView gifts;
     // Adapter
     private GiftAdapter adapter;
-    // List of tasks
-    private List<GiftModel> giftEvents;
+
     public FriendGiftFragment() {
         // Required empty public constructor
     }
@@ -105,7 +104,7 @@ public class FriendGiftFragment extends Fragment {
         giftDAO.getAllGiftsFromAPI(mParam2, apiKey, new GiftDAO.GiftCallback() {
             @Override
             public void onSuccess(List<GiftModel> allGifts, String listName, int id) {
-                System.out.println("ALL GIFTS: " + allGifts);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

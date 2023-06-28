@@ -6,17 +6,12 @@ import java.util.ArrayList;
 
 public class ListModel {
 
-    // List id
+    // Variables
     private int id;
-    // List's user id
     private int userId;
-    // Creation date
     private String creationDate;
-    // List name
     private String name;
-    // List description
     private String description;
-    // List end date
     private String deadline;
     private ArrayList<GiftModel> gifts = new ArrayList<>();
 
@@ -56,7 +51,7 @@ public class ListModel {
         return gifts;
     }
 
-        // Setters
+    // Setters
     public void setName(String name){
             this.name = name;
         }

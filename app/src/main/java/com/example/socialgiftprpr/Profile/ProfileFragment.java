@@ -3,14 +3,10 @@ package com.example.socialgiftprpr.Profile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,29 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.socialgiftprpr.Lists.ListAdapter;
 import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainActivity;
-import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**
@@ -51,25 +33,19 @@ import okhttp3.Response;
  */
 public class ProfileFragment extends Fragment {
 
+    // UI components
     ImageButton editProfileButton;
-
-    ImageButton viewReservedButton;
-
     private TextView totalLists;
     private TextView totalGifts;
-    private TextView totalFriends;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private String apiKey;
-
     private TextView name;
     private TextView email;
     private ImageView image;
+
+    // Variables
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -121,12 +97,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess(String id, String name, String p1) {
 
-                System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();
                 listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
                     @Override
                     public void onSuccess(List<ListModel> list) {
-                        System.out.println("LIST: " + list);
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -160,9 +134,6 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
             }
         });
-
-        //totalFriends = view.findViewById(R.id.total_friends_counter);
-        //totalGifts.setText("");
 
         email.setText(emailUser);
 
@@ -207,17 +178,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        viewReservedButton = (ImageButton) view.findViewById(R.id.view_reserved_button);
-        viewReservedButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, MainWindow.class);
-                intent.putExtra("fragment", "FriendListFragment");
-                //intent.putExtra("title", "RESERVED GIFTS");
-                context.startActivity(intent);
-
-            }
-        });
 
         return view;
     }

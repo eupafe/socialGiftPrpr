@@ -18,7 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainWindow extends AppCompatActivity{
 
-    // Bottom navigation bar
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -41,10 +40,7 @@ public class MainWindow extends AppCompatActivity{
             if (fragmentType.equals("giftsFragment")) {
 
                 String listName = extras.getString("listName");
-                System.out.println("LIST NAME : " + listName);
-
                 int id = extras.getInt("listId");
-                System.out.println("LIST id : " + id);
 
                 GiftsFragment giftsFragment = GiftsFragment.newInstance(listName, id);
                 replaceFragment(giftsFragment);
@@ -62,14 +58,10 @@ public class MainWindow extends AppCompatActivity{
             else if(fragmentType.equals("FriendGiftFragment")){
 
                 String listName = extras.getString("listName");
-                System.out.println("LIST NAME : " + listName);
-
                 int id = extras.getInt("listId");
-                System.out.println("LIST id : " + id);
 
                 FriendGiftFragment friendGiftFragment = FriendGiftFragment.newInstance(listName, id);
                 replaceFragment(friendGiftFragment);
-
             }
 
             bottomNavigationView = findViewById(R.id.bottom_navigation);

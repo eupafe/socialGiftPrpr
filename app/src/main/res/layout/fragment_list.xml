@@ -22,10 +22,10 @@
 
     <ImageButton
         android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="49dp"
-        android:layout_marginStart="326dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="47dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="340dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Add list"

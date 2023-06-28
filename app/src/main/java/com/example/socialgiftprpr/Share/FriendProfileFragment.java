@@ -16,9 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.socialgiftprpr.Lists.Gifts.GiftsFragment;
-import com.example.socialgiftprpr.Lists.ListAdapter;
-import com.example.socialgiftprpr.Lists.ListFragment;
 import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.ListDAO;
@@ -36,19 +33,19 @@ import java.util.List;
  */
 public class FriendProfileFragment extends Fragment {
 
+    // Variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
+    // UI components
     private ImageButton viewList;
     private ImageView image;
     private TextView name;
     private TextView email;
     private TextView totalLists;
     private TextView totalGifts;
-    private TextView totalFriends;
 
     public FriendProfileFragment() {
         // Required empty public constructor
@@ -89,7 +86,6 @@ public class FriendProfileFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
-        String emailUser = sharedPreferences.getString("email", null);
         String friendEmail = sharedPreferences.getString("friendEmail", null);
 
         name = view.findViewById(R.id.profile_name);
@@ -102,12 +98,10 @@ public class FriendProfileFragment extends Fragment {
             @Override
             public void onSuccess(String id, String name, String p1) {
 
-                System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();
                 listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback() {
                     @Override
                     public void onSuccess(List<ListModel> list) {
-                        System.out.println("LIST: " + list);
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -118,12 +112,12 @@ public class FriendProfileFragment extends Fragment {
 
                                 int counter = 0;
                                 for (int i = 0; i < list.size(); i++) {
-                                    System.out.println(counter);
                                     counter = list.get(i).getGifts().size() + counter;
                                 }
 
                                 totalGifts = view.findViewById(R.id.total_gifts_counter);
                                 totalGifts.setText(String.valueOf(counter));
+
                             }
                         });
                     }
@@ -142,8 +136,6 @@ public class FriendProfileFragment extends Fragment {
             }
         });
 
-        //totalFriends = view.findViewById(R.id.total_friends_counter);
-        //totalGifts.setText("");
 
         userDAO.getUserIdFromAPI(friendEmail, apiKey, new UserDAO.UserCallback() {
             @Override

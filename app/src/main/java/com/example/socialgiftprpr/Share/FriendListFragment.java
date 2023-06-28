@@ -31,18 +31,18 @@ import java.util.List;
  */
 public class FriendListFragment extends Fragment {
 
+    // Variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
+    // UI components
     private TextView titleText;
+    // Recycler view
     private RecyclerView friendLists;
     // Adapter
     private ListAdapter adapter;
-    // List of tasks
-    private List<ListModel> friendListEvents;
 
     public FriendListFragment() {
         // Required empty public constructor
@@ -86,7 +86,6 @@ public class FriendListFragment extends Fragment {
         // Adapter initialization
         friendLists = (RecyclerView) view.findViewById(R.id.friendLists);
         friendLists.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        friendListEvents = new ArrayList<>();
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
         String apiKey = sharedPreferences.getString("apiKey", null);
@@ -97,31 +96,36 @@ public class FriendListFragment extends Fragment {
             @Override
             public void onSuccess(String id, String name, String p1) {
 
-                System.out.println("ID: " + id);
                 ListDAO listDAO = new ListDAO();
                 listDAO.getAllListsFromAPI(id, apiKey, new ListDAO.ListCallback(){
                     @Override
                     public void onSuccess(List<ListModel> list) {
-                        System.out.println("LIST: " + list);
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                int counter = 0;
-                                for (int i = 0; i < list.size(); i++) {
-                                    System.out.println(counter);
-                                    counter = list.get(i).getGifts().size() + counter;
+                                if(list.size() == 0){
+
+                                    Toast.makeText(getContext(), "THERE ARE NO LISTS AVAILABLE", Toast.LENGTH_SHORT).show();
+
+                                } else{
+                                    int counter = 0;
+                                    for (int i = 0; i < list.size(); i++) {
+                                        System.out.println(counter);
+                                        counter = list.get(i).getGifts().size() + counter;
+                                    }
+
+                                    SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("totalFriendLists", String.valueOf(list.size()));
+                                    editor.putString("totalFriendGifts", String.valueOf(counter));
+                                    editor.apply();
+
+                                    adapter = new ListAdapter(list, true);
+                                    friendLists.setAdapter(adapter);
                                 }
 
-                                SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("totalFriendLists", String.valueOf(list.size()));
-                                editor.putString("totalFriendGifts", String.valueOf(counter));
-                                editor.apply();
-
-                                adapter = new ListAdapter(list, true);
-                                friendLists.setAdapter(adapter);
                             }
                         });
                     }
@@ -139,10 +143,5 @@ public class FriendListFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void setTitle(String title) {
-        titleText.setText(title);
-
     }
 }

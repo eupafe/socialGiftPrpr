@@ -73,35 +73,7 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    android:layout_marginLeft="20dp">
-
-                    <ImageButton
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/view_reserved"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/bookmark"
-                        android:id ="@+id/view_reserved_button"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/view_reserved"
-                        android:textColor="@android:color/black"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_button"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="50dp">
 
                     <ImageButton
                         android:layout_width="80dp"
@@ -130,7 +102,7 @@
                     android:orientation="vertical"
                     android:padding="8dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginRight="50dp">
 
                     <ImageButton
                         android:layout_width="80dp"

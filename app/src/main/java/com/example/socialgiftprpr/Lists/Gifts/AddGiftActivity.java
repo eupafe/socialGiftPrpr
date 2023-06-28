@@ -12,20 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.socialgiftprpr.Lists.ListAdapter;
-import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
-import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddGiftActivity extends AppCompatActivity {
 
+    // UI components
     private Button saveButton;
     private EditText priority;
     private EditText link;

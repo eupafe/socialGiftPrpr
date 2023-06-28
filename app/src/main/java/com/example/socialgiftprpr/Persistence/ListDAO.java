@@ -2,7 +2,6 @@ package com.example.socialgiftprpr.Persistence;
 import com.example.socialgiftprpr.Lists.Gifts.GiftModel;
 import com.example.socialgiftprpr.Lists.Gifts.ProductModel;
 import com.example.socialgiftprpr.Lists.ListModel;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -299,7 +298,6 @@ public class ListDAO {
 
                         listModel.add(new ListModel(listId, userId, listName, description, creationDate, endDate, gifts));
 
-                        System.out.println("GIFTS: " + gifts);
                         callback.onSuccess(listModel);
 
                     } catch (JSONException e) {

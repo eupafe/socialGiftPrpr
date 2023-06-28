@@ -29,9 +29,11 @@ public class Login extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log_in, container, false);
 
+        // Edit texts
         email = view.findViewById(R.id.login_email);
         password = view.findViewById(R.id.login_password);
 
+        // Log in button
         logIn = view.findViewById(R.id.login_button);
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override

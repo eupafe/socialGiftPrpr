@@ -25,11 +25,11 @@ import java.util.List;
 
 public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
+    // Variables
     public List<ListModel> listEvents;
     private boolean friend;
 
     public ListAdapter(List<ListModel> listEvents, boolean friend){
-       // this.activity = activity;
         this.listEvents = listEvents;
         this.friend = friend;
     }
@@ -43,6 +43,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public void onBindViewHolder(ListAdapter.ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         ListModel list = listEvents.get(pos);
+
         holder.name.setText(list.getName());
         //holder.description.setText(list.getDescription());
         holder.deadline.setText(list.getDeadline());
@@ -82,7 +83,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
                                 TextView titleTextView = new TextView(v.getContext());
-                                titleTextView.setText("DESCRIPTION");
+                                titleTextView.setText(R.string.pop_up_description);
                                 titleTextView.setGravity(Gravity.CENTER);
                                 builder.setCustomTitle(titleTextView);
 
@@ -101,8 +102,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
-
-                                //TODO ARREGLAR EL DISSENY
 
                             } else if (item.getTitle().equals("Edit")) {
 
@@ -127,7 +126,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
                                     @Override
                                     public void onFailure(Exception e) {
-                                        //Toast.makeText(v.getContext(), "ERROR: gift NOT deleted", Toast.LENGTH_SHORT).show();
                                     }
                                 });
 

@@ -52,4 +52,5 @@
     <string name="list_deadline">Deadline</string>
     <string name="save">SAVE</string>
     <string name="new_gift_title">NEW GIFT</string>
+    <string name="pop_up_description">DESCRIPTION</string>
 </resources>

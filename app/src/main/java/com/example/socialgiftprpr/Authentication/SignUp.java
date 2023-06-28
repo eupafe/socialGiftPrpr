@@ -6,56 +6,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 public class SignUp extends Fragment {
 
+    // UI components
     private ImageView imageView;
-    private Uri imagePath;
     private EditText name;
     private EditText surname;
     private EditText email;
     private EditText password;
     private Button signUp;
-    private String image;
+
+    // Other variables
+    private Uri imagePath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-
-        name = view.findViewById(R.id.signup_name);
-        surname = view.findViewById(R.id.signup_surname);
-        password = view.findViewById(R.id.signup_password);
-        email = view.findViewById(R.id.signup_email);
 
         imageView = view.findViewById(R.id.profileImage);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +58,12 @@ public class SignUp extends Fragment {
             }
         });
 
-        signUp = view.findViewById(R.id.signup_button);
+        name = view.findViewById(R.id.signup_name);
+        surname = view.findViewById(R.id.signup_surname);
+        password = view.findViewById(R.id.signup_password);
+        email = view.findViewById(R.id.signup_email);
 
+        signUp = view.findViewById(R.id.signup_button);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +78,7 @@ public class SignUp extends Fragment {
                 editor.putString("email", enteredEmail);
                 editor.apply();
 
+                String image = " ";
                 UserDAO userDAO = new UserDAO();
                 userDAO.signup(enteredName, enteredSurname, enteredEmail, enteredPassword, image, new UserDAO.UserCallback() {
                     @Override
@@ -128,27 +124,13 @@ public class SignUp extends Fragment {
         }
 
         imageView.setImageBitmap(bitmap);
-
-        // Guardar el Bitmap en un archivo temporal
-        File imageFile = saveBitmapToFile(bitmap);
-        // Subir la imagen a la API
-        UserDAO userDAO = new UserDAO();
-        userDAO.uploadImageToAPI(imageFile);
     }
 
-    private File saveBitmapToFile(Bitmap bitmap) {
-        // Crear un archivo para guardar el bitmap
-        File file = new File(requireContext().getCacheDir(), "image.jpg");
-        try {
-            // Comprimir el bitmap y guardarlo en el archivo
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
 }

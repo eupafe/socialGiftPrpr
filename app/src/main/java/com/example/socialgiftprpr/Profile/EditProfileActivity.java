@@ -18,6 +18,7 @@ import java.io.IOException;
 
 public class EditProfileActivity extends AppCompatActivity {
 
+    // UI components
     private Button confirmButton;
     private EditText name;
     private EditText surname;
@@ -62,7 +63,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), MainWindow.class);
                                 intent.putExtra("fragment", "profileFragment");
                                 startActivity(intent);
-                                //Toast.makeText(getApplicationContext(), "List successfully edited!", Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override

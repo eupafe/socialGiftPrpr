@@ -1,6 +1,5 @@
 package com.example.socialgiftprpr.Lists.Gifts;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,18 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.FriendDAO;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
-import com.example.socialgiftprpr.Persistence.ProductDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.Share.UserModel;
 import com.squareup.picasso.Picasso;
@@ -31,15 +27,13 @@ import java.util.List;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
 
+    // Variables
     public List<GiftModel> giftEvents;
-    private CheckBox reservedCheckBox;
-
     private boolean friend;
     private String listName;
     private String apiKey;
 
     public GiftAdapter(List<GiftModel> giftEvents,  boolean friend, String listName, String apiKey){
-        // this.activity = activity;
         this.giftEvents = giftEvents;
         this.friend = friend;
         this.listName = listName;
@@ -55,7 +49,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position){
         int pos = holder.getAdapterPosition();
         GiftModel gift = giftEvents.get(pos);
-        System.out.println("GIFT ADAPTER: " + gift);
+
         holder.name.setText(gift.getProductInfo().getName());
         holder.link.setText(gift.getProductUrl());
 
@@ -131,7 +125,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
             holder.reservedCheckBox.setEnabled(true);
             holder.reservedCheckBox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    // TODO: method that reserves a gift + method that sets the checkbox checked if the gift is reserved or not
+
                     int id = gift.getGiftId();
 
                     SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("SP", Context.MODE_PRIVATE);

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -118,19 +117,12 @@ public class GiftDAO {
                             productDAO.getProductData(productUrl, apiKey, new ProductDAO.ProductCallback() {
                                 @Override
                                 public void onSuccess(ProductModel productModel) {
-                                    //System.out.println("PRODUCT MODEL: " + productModel);
-                                   /* GiftModel gift = gifts.get(finalJ);
-                                    gift.setProductInfo(productModel);
-                                    gifts.set(finalJ, gift);
 
-                                    */
                                     GiftModel gift = gifts.get(finalJ);
                                     gift.setProductInfo(productModel);
                                     gifts.set(finalJ, gift);
 
-                                    // Verificar si todos los regalos han sido actualizados con el ProductModel
                                     if (isAllGiftsUpdated(gifts, jsonArray1.length())) {
-                                        // Llamar al método onSuccess del callback con los regalos completos
                                         callback.onSuccess(gifts, listName, listId);
                                     }
 
@@ -138,16 +130,13 @@ public class GiftDAO {
 
                                 @Override
                                 public void onFailure(IOException e) {
-                                    // Verificar si todos los regalos han sido actualizados con el ProductModel
+
                                     if (isAllGiftsUpdated(gifts, jsonArray1.length())) {
-                                        // Llamar al método onSuccess del callback con los regalos completos
                                         callback.onSuccess(gifts, listName, listId);
                                     }
                                 }
                             });
 
-                            //gifts.add(new GiftModel(id, wishlistId, productUrl, priority, finalState, product));
-                            System.out.println("ENTRA FOR");
                         }
 
                        // callback.onSuccess(gifts, listName, listId);
@@ -302,7 +291,6 @@ public class GiftDAO {
                             }
                             gifts.add(new GiftModel(id, wishlistId, productUrl, priority, state, null));
 
-                        System.out.println("GIFTS: " + gifts);
                         String listName = null;
                         int idcall = 0;
                         callback.onSuccess(gifts, listName, idcall);

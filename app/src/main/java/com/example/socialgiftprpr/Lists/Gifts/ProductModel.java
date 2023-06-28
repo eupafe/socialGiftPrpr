@@ -1,18 +1,16 @@
 package com.example.socialgiftprpr.Lists.Gifts;
 
-import org.json.JSONObject;
-
 import java.io.Serializable;
 
 public class ProductModel implements Serializable {
 
+    // Variables
     private int id;
     private String name;
     private String desctiption;
     private String link;
     private String photo;
     private double price;
-
 
     public ProductModel(int id, String name, String description, String link, String photo, double price){
         this.id = id;
@@ -24,6 +22,7 @@ public class ProductModel implements Serializable {
 
     }
 
+    // Getters
     public int getId() {
         return id;
     }
@@ -32,7 +31,7 @@ public class ProductModel implements Serializable {
         return name;
     }
 
-    public String getDesctiption() {
+    public String getDescription() {
         return desctiption;
     }
 

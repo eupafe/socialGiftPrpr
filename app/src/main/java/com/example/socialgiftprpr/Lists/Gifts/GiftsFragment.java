@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,22 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.socialgiftprpr.Lists.ListAdapter;
-import com.example.socialgiftprpr.Lists.ListModel;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
-import com.example.socialgiftprpr.Persistence.ListDAO;
-import com.example.socialgiftprpr.Persistence.ProductDAO;
-import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,35 +35,15 @@ import java.util.List;
  */
 public class GiftsFragment extends Fragment{
 
-    private ImageButton seeGift;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private String mParam3;
-
     private TextView listTitle;
-    // Button to create a new gift
     private ImageButton addGift;
-
     private Spinner spinner;
-
-    // Recycler view
     private RecyclerView gifts;
     // Adapter
     private GiftAdapter adapter;
-    // List of tasks
-    private List<GiftModel> giftEvents;
-
-    private int idList;
-
-    // Shared preferences
-    private SharedPreferences sharedPreferences;
-
     private String listName;
     private int id;
 
@@ -85,9 +56,10 @@ public class GiftsFragment extends Fragment{
      * this fragment using the provided parameters.
      *
      * @param listName Parameter 1.
+     * @param id Parameter 2.
      * @return A new instance of fragment GiftsFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static GiftsFragment newInstance(String listName, int id) {
         GiftsFragment fragment = new GiftsFragment();
         Bundle args = new Bundle();
@@ -152,7 +124,7 @@ public class GiftsFragment extends Fragment{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No se seleccionó ningún elemento
+
             }
         });
 
@@ -169,34 +141,39 @@ public class GiftsFragment extends Fragment{
         giftDAO.getAllGiftsFromAPI(id, apiKey, new GiftDAO.GiftCallback() {
             @Override
             public void onSuccess(List<GiftModel> allGifts, String listName, int id) {
-                System.out.println("ALL GIFTS: " + allGifts);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("SORT BY: " + sortBy);
 
-                        if(sortBy.equals("Priority")) {
-                            Collections.sort(allGifts, new Comparator<GiftModel>() {
-                                @Override
-                                public int compare(GiftModel gift1, GiftModel gift2) {
+                        if(allGifts.size() == 0){
+                            Toast.makeText(getContext(), "THERE ARE NO GIFTS IN THIS LIST", Toast.LENGTH_SHORT).show();
+                        } else{
 
-                                    return Integer.compare(gift1.getPriority(), gift2.getPriority());
-                                }
-                            });
-                        } else {
+                            if(sortBy.equals("Priority")) {
+                                Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                    @Override
+                                    public int compare(GiftModel gift1, GiftModel gift2) {
 
-                            Collections.sort(allGifts, new Comparator<GiftModel>() {
-                                @Override
-                                public int compare(GiftModel gift1, GiftModel gift2) {
+                                        return Integer.compare(gift1.getPriority(), gift2.getPriority());
+                                    }
+                                });
+                            } else {
 
-                                    return Double.compare(gift1.getProductInfo().getPrice(), gift2.getProductInfo().getPrice());
-                                }
-                            });
+                                Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                    @Override
+                                    public int compare(GiftModel gift1, GiftModel gift2) {
 
+                                        return Double.compare(gift1.getProductInfo().getPrice(), gift2.getProductInfo().getPrice());
+                                    }
+                                });
+
+                            }
+
+                            adapter = new GiftAdapter(allGifts, false, listName, apiKey);
+                            gifts.setAdapter(adapter);
                         }
 
-                        adapter = new GiftAdapter(allGifts, false, listName, apiKey);
-                        gifts.setAdapter(adapter);
                     }
                 });
 
