@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,13 +24,10 @@ import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FriendGiftFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FriendGiftFragment extends Fragment {
 
     // Variables
@@ -50,15 +48,6 @@ public class FriendGiftFragment extends Fragment {
     public FriendGiftFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FriendGiftFragment.
-     */
 
     public static FriendGiftFragment newInstance(String param1, int param2) {
         FriendGiftFragment fragment = new FriendGiftFragment();
@@ -93,12 +82,36 @@ public class FriendGiftFragment extends Fragment {
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterSpinner);
 
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-        String apiKey = sharedPreferences.getString("apiKey", null);
-
         // Adapter initialization
         gifts = (RecyclerView) view.findViewById(R.id.gifts);
         gifts.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                if (selectedItem.equals("Price")) {
+                    sortBy("Price");
+
+                } else if (selectedItem.equals("Priority")) {
+                    sortBy("Priority");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return view;
+    }
+
+    private void sortBy(String sortBy){
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+        String apiKey = sharedPreferences.getString("apiKey", null);
 
         GiftDAO giftDAO = new GiftDAO();
         giftDAO.getAllGiftsFromAPI(mParam2, apiKey, new GiftDAO.GiftCallback() {
@@ -108,8 +121,35 @@ public class FriendGiftFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter = new GiftAdapter(allGifts, true, listName, apiKey);
-                        gifts.setAdapter(adapter);
+
+                        if(allGifts.size() == 0){
+                            Toast.makeText(getContext(), "THERE ARE NO GIFTS IN THIS LIST", Toast.LENGTH_SHORT).show();
+                        } else{
+
+                            if(sortBy.equals("Priority")) {
+                                Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                    @Override
+                                    public int compare(GiftModel gift1, GiftModel gift2) {
+
+                                        return Integer.compare(gift1.getPriority(), gift2.getPriority());
+                                    }
+                                });
+                            } else {
+
+                                Collections.sort(allGifts, new Comparator<GiftModel>() {
+                                    @Override
+                                    public int compare(GiftModel gift1, GiftModel gift2) {
+
+                                        return Double.compare(gift1.getProductInfo().getPrice(), gift2.getProductInfo().getPrice());
+                                    }
+                                });
+
+                            }
+
+                            adapter = new GiftAdapter(allGifts, true, listName, apiKey);
+                            gifts.setAdapter(adapter);
+                        }
+
                     }
                 });
 
@@ -120,7 +160,5 @@ public class FriendGiftFragment extends Fragment {
                 Toast.makeText(getContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 }

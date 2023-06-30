@@ -161,11 +161,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         return listEvents.size();
     }
 
-    public void setTasks(List<ListModel> listEvents){
-        this.listEvents = new ArrayList<>();
-        this.listEvents.addAll(listEvents);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageButton seeButton;
         public TextView name;

@@ -21,14 +21,8 @@ import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FriendListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FriendListFragment extends Fragment {
 
     // Variables
@@ -47,15 +41,6 @@ public class FriendListFragment extends Fragment {
     public FriendListFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FriendListFragment.
-     */
 
     public static FriendListFragment newInstance(String param1, String param2) {
         FriendListFragment fragment = new FriendListFragment();

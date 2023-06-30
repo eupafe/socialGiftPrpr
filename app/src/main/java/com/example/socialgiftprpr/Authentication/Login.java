@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.example.socialgiftprpr.Persistence.UserDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
+
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 
 public class Login extends Fragment {
@@ -61,10 +64,21 @@ public class Login extends Fragment {
                     }
                     @Override
                     public void onFailure(IOException e) {
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "Wrong credentials. Please, try again", Toast.LENGTH_SHORT).show();
+                                String string = null;
+
+                                if(e.getMessage().equals("Login failed")){
+                                    string = "Wrong credentials. Please, try again";
+                                } else if (e.getMessage().equals("Server error")){
+                                    string = "Server connection failed";
+                                }
+                                String finalString = string;
+
+                                Toast.makeText(getContext(), finalString, Toast.LENGTH_SHORT).show();
+
                             }
                         });
                     }

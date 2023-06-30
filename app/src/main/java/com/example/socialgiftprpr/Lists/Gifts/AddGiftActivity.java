@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.example.socialgiftprpr.MainWindow;
 import com.example.socialgiftprpr.Persistence.GiftDAO;
 import com.example.socialgiftprpr.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class AddGiftActivity extends AppCompatActivity {
@@ -66,68 +69,88 @@ public class AddGiftActivity extends AppCompatActivity {
                 String enteredLink = link.getText().toString();
 
                 int priorityValue = 0;
-
-                try {
-                    priorityValue = Integer.parseInt(enteredPriority);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-
-                if(t != null){
-
-                    String value = getIntent().getStringExtra("gift_id");
-
-                    GiftDAO giftDAO = new GiftDAO();
-                    giftDAO.editGiftToAPI(value, enteredPriority, enteredLink, apiKey, new GiftDAO.GiftCallback() {
-                        @Override
-                        public void onSuccess(List<GiftModel> listEvents, String string, int id) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(v.getContext(), MainWindow.class);
-                                    intent.putExtra("fragment", "giftsFragment");
-                                    intent.putExtra("listId", finalId);
-                                    intent.putExtra("listName", finalListName);
-                                    startActivity(intent);
-                                }
-                            });
-
-                        }
-
-                        @Override
-                        public void onFailure(IOException e) {
-
-                        }
-                    });
-
+                boolean valid = true;
+                if(enteredPriority.isEmpty() || enteredLink.isEmpty()){
+                    valid = false;
+                    Toast.makeText(getApplicationContext(), "Missing fields!", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    GiftDAO giftDAO = new GiftDAO();
-                    giftDAO.addGiftToAPI(apiKey, finalId, enteredLink, priorityValue, new GiftDAO.GiftCallback() {
-                        @Override
-                        public void onSuccess(List<GiftModel> gifts, String list, int id) {
+                    // Check that priority is a number
+                    try {
+                        priorityValue = Integer.parseInt(enteredPriority);
 
-                            Toast.makeText(getApplicationContext(), "Gift successfully added!", Toast.LENGTH_SHORT).show();
-                        }
+                    } catch (NumberFormatException e) {
+                        valid = false;
+                        Toast.makeText(getApplicationContext(), "Priority must be an integer", Toast.LENGTH_SHORT).show();
+                    }
 
-                        @Override
-                        public void onFailure(IOException e) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    // Check that the image is available
+                    try {
+                        URL url = new URL(String.valueOf(enteredLink));
 
-                        }
-                    });
+                    } catch (MalformedURLException e) {
+                        valid = false;
+                        Toast.makeText(getApplicationContext(), "URL not valid", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
-                Intent intent = new Intent(v.getContext(), MainWindow.class);
-                intent.putExtra("fragment", "giftsFragment");
-                intent.putExtra("listId", finalId);
-                intent.putExtra("listName", finalListName);
-                startActivity(intent);
+                if(valid){
+                    if(t != null){
+
+                        String value = getIntent().getStringExtra("gift_id");
+
+                        GiftDAO giftDAO = new GiftDAO();
+                        giftDAO.editGiftToAPI(value, enteredPriority, enteredLink, apiKey, new GiftDAO.GiftCallback() {
+                            @Override
+                            public void onSuccess(List<GiftModel> listEvents, String string, int id) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(v.getContext(), MainWindow.class);
+                                        intent.putExtra("fragment", "giftsFragment");
+                                        intent.putExtra("listId", finalId);
+                                        intent.putExtra("listName", finalListName);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+
+                            }
+                        });
+
+                    } else {
+
+                        GiftDAO giftDAO = new GiftDAO();
+                        giftDAO.addGiftToAPI(apiKey, finalId, enteredLink, priorityValue, new GiftDAO.GiftCallback() {
+                            @Override
+                            public void onSuccess(List<GiftModel> gifts, String list, int id) {
+
+                                Toast.makeText(getApplicationContext(), "Gift successfully added!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+
+                    Intent intent = new Intent(v.getContext(), MainWindow.class);
+                    intent.putExtra("fragment", "giftsFragment");
+                    intent.putExtra("listId", finalId);
+                    intent.putExtra("listName", finalListName);
+                    startActivity(intent);
+                }
 
             }
         });

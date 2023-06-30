@@ -2,6 +2,7 @@ package com.example.socialgiftprpr.Share;
 
 public class UserModel {
 
+    // Variables
     private String id;
     private String name;
     private String surname;
@@ -28,8 +29,5 @@ public class UserModel {
     }
     public String getEmail() {
         return email;
-    }
-    public String getImage() {
-        return image;
     }
 }

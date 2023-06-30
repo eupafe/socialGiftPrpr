@@ -28,37 +28,27 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GiftsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GiftsFragment extends Fragment{
 
-    // Variables
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // UI components
     private TextView listTitle;
     private ImageButton addGift;
     private Spinner spinner;
+
+    // Recycler view
     private RecyclerView gifts;
     // Adapter
     private GiftAdapter adapter;
+
+    // Other variables
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     private String listName;
     private int id;
 
     public GiftsFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param listName Parameter 1.
-     * @param id Parameter 2.
-     * @return A new instance of fragment GiftsFragment.
-     */
 
     public static GiftsFragment newInstance(String listName, int id) {
         GiftsFragment fragment = new GiftsFragment();

@@ -175,11 +175,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
         return giftEvents.size();
     }
 
-    public void setTasks(List<GiftModel> listEvents){
-        this.giftEvents = new ArrayList<>();
-        this.giftEvents.addAll(listEvents);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         public CheckBox reservedCheckBox;
         public TextView name;

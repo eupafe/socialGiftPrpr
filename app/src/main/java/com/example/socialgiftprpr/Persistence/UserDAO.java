@@ -4,13 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -49,8 +47,7 @@ public class UserDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -63,8 +60,7 @@ public class UserDAO {
                         callback.onSuccess(accessToken, "", "");
 
                     } catch (JSONException e) {
-                        //e.printStackTrace();
-                        //callback.onFailure(new IOException("Server Error"));
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
                     callback.onFailure(new IOException("Login failed"));
@@ -99,8 +95,7 @@ public class UserDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -127,8 +122,7 @@ public class UserDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -150,17 +144,16 @@ public class UserDAO {
                         callback.onSuccess(id, fullName, image);
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
-                    callback.onFailure(new IOException("Login failed"));
+                    callback.onFailure(new IOException("Get user failed"));
                 }
             }
         });
     }
 
-    public void editUserProfileToAPI(String emailUser, String name, String surname, String email, String password, String apiKey, UserCallback callback) {
+    public void editUserProfileToAPI(String emailUser, String name, String surname, String email, String password, String image, String apiKey, UserCallback callback) {
 
         getUserIdFromAPI(emailUser, apiKey, new UserDAO.UserCallback() {
             @Override
@@ -175,7 +168,7 @@ public class UserDAO {
                     jsonBody.put("last_name", surname);
                     jsonBody.put("email", email);
                     jsonBody.put("password", password);
-                    jsonBody.put("image", "https://balandrau.salle.url.edu/i3/repositoryimages/photo/47601a8b-dc7f-41a2-a53b-19d2e8f54cd0.png");
+                    jsonBody.put("image", image);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -191,8 +184,7 @@ public class UserDAO {
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
 
                     @Override

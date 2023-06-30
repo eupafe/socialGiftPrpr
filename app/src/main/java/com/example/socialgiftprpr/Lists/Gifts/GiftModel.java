@@ -42,11 +42,8 @@ public class GiftModel implements Serializable{
     }
 
     // Setters
-    public void setProductUrl(String productUrl) {
-        this.productUrl = productUrl;
-    }
-    public void setSave(Boolean save){
-        this.save = save;
+    public void setProductInfo(ProductModel productModel) {
+        this.productInfo = productModel;
     }
 
     @Override
@@ -59,9 +56,5 @@ public class GiftModel implements Serializable{
                 ", save=" + save +
                 ", productInfo=" + productInfo +
                 '}';
-    }
-
-    public void setProductInfo(ProductModel productModel) {
-        this.productInfo = productModel;
     }
 }

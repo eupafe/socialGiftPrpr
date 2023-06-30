@@ -55,12 +55,6 @@ public class ListModel {
     public void setName(String name){
             this.name = name;
         }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
 
     @Override
     public String toString() {

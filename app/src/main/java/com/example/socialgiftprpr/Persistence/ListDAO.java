@@ -42,8 +42,7 @@ public class ListDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -91,11 +90,10 @@ public class ListDAO {
                         callback.onSuccess(listEvents);
 
                     } catch (JSONException e) {
-                        //e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
-                    callback.onFailure(new IOException("Login failed"));
+                    callback.onFailure(new IOException("Get all lists failed"));
                 }
             }
 
@@ -133,8 +131,7 @@ public class ListDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -159,8 +156,7 @@ public class ListDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -219,8 +215,7 @@ public class ListDAO {
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
 
                     @Override
@@ -259,8 +254,7 @@ public class ListDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -301,8 +295,7 @@ public class ListDAO {
                         callback.onSuccess(listModel);
 
                     } catch (JSONException e) {
-                        //e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server Error"));
                     }
                 } else {
                     callback.onFailure(new IOException("Login failed"));

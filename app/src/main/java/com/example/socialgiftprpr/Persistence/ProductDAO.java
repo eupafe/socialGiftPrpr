@@ -34,8 +34,7 @@ public class ProductDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -57,11 +56,10 @@ public class ProductDAO {
                         callback.onSuccess(new ProductModel(id, name, description, link, photo, price));
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
-                    callback.onFailure(new IOException("Login failed"));
+                    callback.onFailure(new IOException("Get product failed"));
                 }
             }
         });

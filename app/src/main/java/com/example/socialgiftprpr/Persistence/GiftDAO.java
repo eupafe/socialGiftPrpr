@@ -53,8 +53,7 @@ public class GiftDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -79,8 +78,7 @@ public class GiftDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -139,14 +137,11 @@ public class GiftDAO {
 
                         }
 
-                       // callback.onSuccess(gifts, listName, listId);
-
                     } catch (JSONException e) {
-                        //e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
-                    callback.onFailure(new IOException("Login failed"));
+                    callback.onFailure(new IOException("Get all gifts failed"));
                 }
             }
 
@@ -174,8 +169,7 @@ public class GiftDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -227,8 +221,7 @@ public class GiftDAO {
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
 
                     @Override
@@ -267,8 +260,7 @@ public class GiftDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Server error"));
             }
 
             @Override
@@ -296,11 +288,10 @@ public class GiftDAO {
                         callback.onSuccess(gifts, listName, idcall);
 
                     } catch (JSONException e) {
-                        //e.printStackTrace();
-                        //callback.onFailure(e);
+                        callback.onFailure(new IOException("Server error"));
                     }
                 } else {
-                    callback.onFailure(new IOException("Login failed"));
+                    callback.onFailure(new IOException("Get gift failed"));
                 }
             }
 

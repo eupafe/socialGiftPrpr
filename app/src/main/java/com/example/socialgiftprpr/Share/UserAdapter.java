@@ -59,11 +59,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return userEvents.size();
     }
 
-    public void setTasks(List<UserModel> userEvents){
-        this.userEvents = new ArrayList<>();
-        this.userEvents.addAll(userEvents);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView name;

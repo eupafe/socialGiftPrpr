@@ -16,12 +16,18 @@ import com.example.socialgiftprpr.Persistence.ListDAO;
 import com.example.socialgiftprpr.R;
 import com.example.socialgiftprpr.MainWindow;
 
-import org.json.JSONObject;
+import org.json.JSONException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class AddListActivity extends AppCompatActivity {
 
-    // Variables
+    // UI components
     private TextView title;
     private EditText name;
     private EditText description;
@@ -52,51 +58,73 @@ public class AddListActivity extends AppCompatActivity {
                 String enteredDescription = description.getText().toString();
                 String enteredDeadline = deadline.getText().toString();
 
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
-                String apiKey = sharedPreferences.getString("apiKey", null);
+                boolean valid = true;
+                if(enteredName.isEmpty() || enteredDescription.isEmpty() || enteredDeadline.isEmpty()){
+                    valid = false;
+                    Toast.makeText(getApplicationContext(), "Missing fields!", Toast.LENGTH_SHORT).show();
+                } else {
 
-                if(t != null){
+                    // Check that the deadline is in the right format
+                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    LocalDateTime dateTime;
 
-                    String value = getIntent().getStringExtra("edit_value");
+                    try {
+                        dateTime = LocalDateTime.parse(enteredDeadline, dateFormatter);
+                    } catch (DateTimeParseException e) {
+                        valid = false;
+                        Toast.makeText(getApplicationContext(), "Deadline format must be:\n dd/MM/yyyy HH:mm:ss", Toast.LENGTH_SHORT).show();
 
-                    ListDAO listDAO = new ListDAO();
-                    listDAO.editListToAPI(value, enteredName, enteredDescription, enteredDeadline, apiKey, new ListDAO.ListCallback() {
-                        @Override
-                        public void onSuccess(List<ListModel> listEvents) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(v.getContext(), MainWindow.class);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-
-                        }
-                    });
-
-                } else{
-
-                    ListDAO listDAO = new ListDAO();
-                    listDAO.addListToAPI(apiKey, enteredName, enteredDescription, enteredDeadline, new ListDAO.ListCallback() {
-                        @Override
-                        public void onSuccess(List<ListModel> listEvents) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            Toast.makeText(getApplicationContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    }
 
                 }
 
-                Intent intent = new Intent(v.getContext(), MainWindow.class);
-                startActivity(intent);
+                if(valid){
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
+                    String apiKey = sharedPreferences.getString("apiKey", null);
+
+                    if(t != null){
+
+                        String value = getIntent().getStringExtra("edit_value");
+
+                        ListDAO listDAO = new ListDAO();
+                        listDAO.editListToAPI(value, enteredName, enteredDescription, enteredDeadline, apiKey, new ListDAO.ListCallback() {
+                            @Override
+                            public void onSuccess(List<ListModel> listEvents) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(v.getContext(), MainWindow.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+
+                            }
+                        });
+
+                    } else{
+
+                        ListDAO listDAO = new ListDAO();
+                        listDAO.addListToAPI(apiKey, enteredName, enteredDescription, enteredDeadline, new ListDAO.ListCallback() {
+                            @Override
+                            public void onSuccess(List<ListModel> listEvents) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                Toast.makeText(getApplicationContext(), "ERROR, cannot connect to the server", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    Intent intent = new Intent(v.getContext(), MainWindow.class);
+                    startActivity(intent);
+                }
             }
         });
     }

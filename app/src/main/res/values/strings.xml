@@ -53,4 +53,6 @@
     <string name="save">SAVE</string>
     <string name="new_gift_title">NEW GIFT</string>
     <string name="pop_up_description">DESCRIPTION</string>
+    <string name="sign_up_image">IMAGE</string>
+    <string name="image_link">Image link</string>
 </resources>
