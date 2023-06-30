@@ -96,7 +96,6 @@ public class ProfileFragment extends Fragment {
 
                                 int counter = 0;
                                 for (int i = 0; i < list.size(); i++) {
-                                    System.out.println(counter);
                                     counter = list.get(i).getGifts().size() + counter;
                                 }
 

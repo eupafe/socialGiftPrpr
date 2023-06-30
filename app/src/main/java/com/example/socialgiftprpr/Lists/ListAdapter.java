@@ -58,8 +58,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                     intent.putExtra("listName", list.getName());
                     intent.putExtra("listGifts", list.getGifts());
                     intent.putExtra("listId", list.getId());
-                    System.out.println("Id of a list: " + list.getId());
-                    System.out.println("all gifts of a list: " + list.getGifts());
                     context.startActivity(intent);
 
                 }
@@ -148,8 +146,6 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
                     intent.putExtra("listName", list.getName());
                     intent.putExtra("listGifts", list.getGifts());
                     intent.putExtra("listId", list.getId());
-                    System.out.println("Id of a list: " + list.getId());
-                    System.out.println("all gifts of a list: " + list.getGifts());
                     context.startActivity(intent);
                 }
             });
