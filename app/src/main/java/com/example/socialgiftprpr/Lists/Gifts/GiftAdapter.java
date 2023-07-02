@@ -33,7 +33,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder>{
     private String listName;
     private String apiKey;
 
-    public GiftAdapter(List<GiftModel> giftEvents,  boolean friend, String listName, String apiKey){
+    public GiftAdapter(List<GiftModel> giftEvents, boolean friend, String listName, String apiKey){
         this.giftEvents = giftEvents;
         this.friend = friend;
         this.listName = listName;

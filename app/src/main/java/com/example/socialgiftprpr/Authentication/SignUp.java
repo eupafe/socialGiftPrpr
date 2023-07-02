@@ -99,6 +99,7 @@ public class SignUp extends Fragment {
         surname = view.findViewById(R.id.signup_surname);
         password = view.findViewById(R.id.signup_password);
         email = view.findViewById(R.id.signup_email);
+        imageView = view.findViewById(R.id.profileImage);
 
         signUp = view.findViewById(R.id.signup_button);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +111,8 @@ public class SignUp extends Fragment {
                 String enteredEmail = email.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                if(enteredName.isEmpty()|| enteredSurname.isEmpty() || enteredEmail.isEmpty() || enteredPassword.isEmpty()){
+                if(enteredName.isEmpty()|| enteredSurname.isEmpty() || enteredEmail.isEmpty() || enteredPassword.isEmpty()
+                    || imageView == null){
                     Toast.makeText(getContext(), "Some fields are missing!", Toast.LENGTH_SHORT).show();
                 } else{
                     SharedPreferences preferences = requireContext().getSharedPreferences("SP", Context.MODE_PRIVATE);
@@ -134,7 +136,7 @@ public class SignUp extends Fragment {
                                     String string = null;
 
                                     if(e.getMessage().equals("Sign up failed")){
-                                        string = "Sign up failed. Please, try again";
+                                        string = "User already exists";
                                     } else if (e.getMessage().equals("Server error")){
                                         string = "Server connection failed";
                                     }
